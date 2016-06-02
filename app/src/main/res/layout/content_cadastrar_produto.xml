@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="clientefeedback.aplicacaocliente.Produto.CadastrarProdutoActivity"
+    tools:showIn="@layout/activity_cadastrar_produto">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollViewCadastrarProduto" >
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/tableLayoutCP">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/tablerowImagemPerfil">
+
+                <com.github.siyamed.shapeimageview.RoundedImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_column="1"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/ivImage"
+                    android:src="@drawable/image"
+                    app:siRadius="6dp"
+                    app:siBorderWidth="6dp"
+                    app:siBorderColor="#616161"
+                    app:siSquare="true" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/tablerowNomeProduto"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/nome"
+                    android:id="@+id/textViewNomeProduto"
+                    android:textColor="#000000"
+                    android:layout_column="1"
+                    android:gravity="left|center_vertical"
+                    android:paddingRight="5dp"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editTextNomeProduto"
+                    android:singleLine="true"
+                    android:layout_column="2"
+                    android:layout_weight="1"
+                    android:paddingLeft="5dp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/border_fields" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/tablerowDescricaoProduto"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/descricao_produto"
+                    android:id="@+id/textViewDescricaoProduto"
+                    android:textColor="#000000"
+                    android:layout_column="1"
+                    android:gravity="left|center_vertical"
+                    android:paddingRight="5dp"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:ems="10"
+                    android:id="@+id/editTextDescricaoProduto"
+                    android:layout_column="2"
+                    android:layout_weight="1"
+                    android:paddingLeft="5dp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/border_fields" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/tablerowPreco"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/preco"
+                    android:inputType="numberDecimal"
+                    android:id="@+id/textViewPreco"
+                    android:textColor="#000000"
+                    android:layout_column="1"
+                    android:gravity="left|center_vertical"
+                    android:paddingRight="5dp"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editTextPreco"
+                    android:singleLine="true"
+                    android:layout_column="2"
+                    android:layout_weight="1"
+                    android:paddingLeft="5dp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/border_fields" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/tablerowCategoria"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/categoria"
+                    android:inputType="numberDecimal"
+                    android:id="@+id/textViewCategoria"
+                    android:textColor="#000000"
+                    android:layout_column="1"
+                    android:gravity="left|center_vertical"
+                    android:paddingRight="5dp"
+                    android:textSize="16dp" />
+
+                    <Spinner
+                        android:id="@+id/spcategoria"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_column="2"
+                        android:layout_weight="1"
+                        android:paddingLeft="5dp"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/border_fields"
+                        android:entries="@array/categoria"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/tablerowCulinaria"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/culinaria"
+                    android:inputType="numberDecimal"
+                    android:id="@+id/textViewCulinaria"
+                    android:textColor="#000000"
+                    android:layout_column="1"
+                    android:gravity="left|center_vertical"
+                    android:paddingRight="5dp"
+                    android:textSize="16dp" />
+
+                <Spinner
+                    android:id="@+id/spculinaria"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:layout_weight="1"
+                    android:paddingLeft="5dp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/border_fields"
+                    android:entries="@array/tipo_cozinhas"/>
+
+            </TableRow>
+
+        </TableLayout>
+    </ScrollView>
+</LinearLayout>
