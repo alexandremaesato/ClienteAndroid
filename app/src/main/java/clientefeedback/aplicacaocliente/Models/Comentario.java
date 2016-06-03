@@ -8,6 +8,8 @@ import android.os.Parcelable;
  */
 public class Comentario implements Parcelable{
 
+    public static String EMPRESA = "empresa";
+
     private int comentarioid;
     private String descricao;
     private int pessoaid;
@@ -15,6 +17,10 @@ public class Comentario implements Parcelable{
     private int comentadoid;
     private int modificado;
     private String tipoComentado;
+
+    public Comentario(){
+
+    }
 
     protected Comentario(Parcel in) {
         comentarioid = in.readInt();

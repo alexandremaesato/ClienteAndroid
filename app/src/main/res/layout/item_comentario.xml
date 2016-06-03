@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical" android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:elevation="5dp">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -27,7 +29,7 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
         <TextView
@@ -57,7 +59,7 @@
         <ImageView
             android:layout_width="67dp"
             android:layout_height="67dp"
-            android:id="@+id/imageView"
+            android:id="@+id/fotoPessoa"
             android:src="@drawable/ic_person_black_24dp"
             android:layout_weight="0.20" />
 
@@ -141,7 +143,7 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
         <TextView
@@ -156,7 +158,8 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:visibility="gone">
 
         <ImageButton
             android:layout_width="70dp"
@@ -168,7 +171,7 @@
         <ImageButton
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:id="@+id/imageButton7"
+            android:id="@+id/iBtn2"
             android:src="@drawable/teste_6"
             android:layout_margin="5dp" />
 

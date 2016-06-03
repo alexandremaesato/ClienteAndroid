@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -33,8 +34,11 @@ import java.util.List;
 
 import clientefeedback.aplicacaocliente.Avaliacao.AvaliacaoDialogFragment;
 import clientefeedback.aplicacaocliente.Avaliacao.RequestAvaliacao;
+import clientefeedback.aplicacaocliente.Comentario.ComentarioDetalhesRequest;
+import clientefeedback.aplicacaocliente.Comentario.ComentarioDialogFragment;
 import clientefeedback.aplicacaocliente.MainFragment;
 import clientefeedback.aplicacaocliente.Models.Avaliacao;
+import clientefeedback.aplicacaocliente.Models.Comentario;
 import clientefeedback.aplicacaocliente.Models.Empresa;
 import clientefeedback.aplicacaocliente.R;
 import clientefeedback.aplicacaocliente.Services.ImageLoaderCustom;
@@ -62,10 +66,12 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
     TextView telefone;
     TextView descricao;
     ImageView imagemPerfil;
-    TextView avaliar;
+    Button avaliar;
+    Button comentar;
     TextView notaAvaliacao;
     TextView comentarioAvaliacao;
     ImageLoader imageLoader;
+    SharedData sharedData;
 
     LinearLayout areaAvaliacao;
     ImageButton btnEditarAvaliacao;
@@ -83,6 +89,7 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedData = new SharedData(getContext());
         imageLoader = ImageLoaderCustom.getImageloader(getContext());
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -144,11 +151,19 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
         }
         imageLoader.displayImage(url, imagemPerfil);
 
-        avaliar = (TextView)rootView.findViewById(R.id.tvAvaliar);
+        avaliar = (Button)rootView.findViewById(R.id.btnAvaliar);
         avaliar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loadDialogAvaliacao();
+            }
+        });
+
+        comentar = (Button)rootView.findViewById(R.id.btnComentar);
+        comentar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadDialogComentar();
             }
         });
 
@@ -165,24 +180,23 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
             comentarioAvaliacao.setText(avaliacao.getDescricao());
         }
 
-        rootView.setOnKeyListener( new View.OnKeyListener()
-        {
+        rootView.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public boolean onKey( View v, int keyCode, KeyEvent event )
-            {
-                if( keyCode == KeyEvent.KEYCODE_BACK )
-                {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
                     getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 }
                 return false;
             }
-        } );
+        });
+
 
         return rootView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        loadComentarios();
         btnFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -209,13 +223,30 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
         return bundle;
     }
 
+    public Bundle getBundleComentario(){
+        Bundle bundle = new Bundle();
+        Comentario comentario = new Comentario();
+        comentario.setComentadoid(empresa.getEmpresaId());
+        comentario.setPessoaid(sharedData.getPessoaId());
+        comentario.setTipoComentado(Comentario.EMPRESA);
+        bundle.putParcelable("comentario", comentario);
+        return bundle;
+    }
+
     private void loadDialogAvaliacao(){
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         AvaliacaoDialogFragment avaliacaoDialogFragment = new AvaliacaoDialogFragment();
         avaliacaoDialogFragment.setArguments(getBundleAvaliacao());
         avaliacaoDialogFragment.setTargetFragment(this, 1);
         avaliacaoDialogFragment.show(ft, "dialog");
+    }
 
+    private void loadDialogComentar(){
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ComentarioDialogFragment comentarioDialogFragment = new ComentarioDialogFragment();
+        comentarioDialogFragment.setArguments(getBundleComentario());
+        comentarioDialogFragment.setTargetFragment(this, 1);
+        comentarioDialogFragment.show(ft, "dialog");
     }
 
 
@@ -235,6 +266,12 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    public void loadComentarios(){
+        ComentarioDetalhesRequest c = new ComentarioDetalhesRequest(getContext(), empresa.getEmpresaId());
+
+
     }
 
 

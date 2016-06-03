@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:fillViewport="true">
+    android:fillViewport="false"
+    android:measureAllChildren="true"
+    android:touchscreenBlocksFocus="false">
 
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,94 +18,95 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:measureWithLargestChild="true">
+            android:measureWithLargestChild="false">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="0dp">
-
-            <ImageView
-                android:src="@drawable/ic_camera_enhance_black_24dp"
-                android:id="@+id/imagemPerfil"
-                android:layout_width="390dp"
-                android:layout_height="210dp"
-                android:background="#ffffff" />
-
-            <TextView
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="SOU DONO"
-                android:id="@+id/tvSouDono"
-                android:layout_alignParentRight="false"
-                android:layout_marginRight="50dp"
-                android:layout_marginTop="190dp"
-                android:background="@color/background_floating_material_light"
-                android:layout_alignParentBottom="false"
-                android:layout_marginLeft="10dp" />
+                android:orientation="horizontal"
+                android:layout_margin="0dp">
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnCamera"
-                android:src="@drawable/ic_camera_enhance_black_24dp"
-                android:layout_alignParentRight="true"
-                android:layout_margin="5dp" />
+                <ImageView
+                    android:id="@+id/imagemPerfil"
+                    android:layout_width="390dp"
+                    android:layout_height="210dp"
+                    android:background="#ffffff" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="1"
-                android:id="@+id/tvQuantidadeFotos"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="50dp"
-                android:layout_marginTop="10dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="SOU DONO"
+                    android:id="@+id/tvSouDono"
+                    android:layout_alignParentRight="false"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginTop="190dp"
+                    android:background="@color/background_floating_material_light"
+                    android:layout_alignParentBottom="false"
+                    android:layout_marginLeft="10dp" />
 
-        </RelativeLayout>
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnCamera"
+                    android:src="@drawable/ic_camera_enhance_black_24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="5dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="1"
+                    android:id="@+id/tvQuantidadeFotos"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginTop="10dp" />
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_pin_drop_white_24dp" />
+            </RelativeLayout>
 
-            <ToggleButton
-                android:id="@+id/btnFavorite"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_margin="5dp"
-                android:textOn=""
-                android:textOff=""
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:layout_centerVertical="true"
-                android:background="@drawable/favorite" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
 
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_pin_drop_white_24dp" />
 
-            <ImageButton
-                android:id="@+id/btnAvaliar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_tune_black_24dp" />
-
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageButton6"
-                android:src="@drawable/ic_map_black_24dp"
-                android:layout_column="2" />
+                <ToggleButton
+                    android:id="@+id/btnFavorite"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_margin="5dp"
+                    android:textOn=""
+                    android:textOff=""
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/favorite" />
 
 
-        </LinearLayout>
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageButton6"
+                    android:src="@drawable/ic_map_black_24dp"
+                    android:layout_column="2" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="AVALIAR"
+                    android:id="@+id/btnAvaliar"
+                    android:singleLine="false"
+                    android:background="@drawable/buttons"
+                    android:textColor="@color/colorPrimary" />
+
+
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"
@@ -193,15 +197,11 @@
                     android:id="@+id/tvNome"
                     android:layout_margin="10dp" />
 
-                <TextView
-                    android:textColor="@color/colorPrimarytext"
-                    android:background="@color/cardview_shadow_end_color"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="AVALIAR"
-                    android:id="@+id/tvAvaliar"
-                    android:layout_margin="10dp" />
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
@@ -354,12 +354,11 @@
                 android:layout_margin="10dp"
                 >
 
-                <TextView
+                <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Comentar"
-                    android:id="@+id/textView17" />
+                    android:id="@+id/btnComentar" />
 
                 <TextView
                     android:layout_width="fill_parent"
@@ -371,18 +370,36 @@
                     android:gravity="center"
                     android:background="@color/colorPrimary"
                     android:textColor="@color/amareloClaro" />
+
                 <ScrollView
                     android:id="@+id/comentariosLayout"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
                     <include layout="@layout/item_comentario"
                         android:id="@+id/t1"/>
                 </ScrollView>
 
             </LinearLayout>
 
+            <ProgressBar
+                android:id="@+id/progressBarComentarioDetalhes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone"/>
+
+
+            <ListView
+                android:layout_width="fill_parent"
+                android:layout_height="750dp"
+                android:id="@+id/lvComentarios"
+                android:stackFromBottom="false" />
+
         </LinearLayout>
+
     </android.support.design.widget.CoordinatorLayout>
+
 
 
 </ScrollView>

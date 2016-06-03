@@ -15,7 +15,7 @@ public class SharedData {
     }
 
     public int getPessoaId(){
-        return sharedPreferences.getInt("pessoaId", 0);
+        return sharedPreferences.getInt(context.getString(R.string.id_pessoa), 0);
     }
 
     public void setSearch(String s){
