@@ -204,4 +204,7 @@
     <string name="descricao_produto_obrigatorio">Descrição do Produto é obrigatório</string>
     <string name="preco_obrigatorio">Preço do Produto é obrigatório</string>
 
+    <string name="nao_autorizado">Não autorizado</string>
+    <string name="erro_conexao">Erro de conexao</string>
+
 </resources>

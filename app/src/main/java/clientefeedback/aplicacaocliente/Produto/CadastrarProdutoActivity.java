@@ -49,6 +49,8 @@ import clientefeedback.aplicacaocliente.Models.Imagem;
 import clientefeedback.aplicacaocliente.Models.Produto;
 import clientefeedback.aplicacaocliente.R;
 import clientefeedback.aplicacaocliente.Services.AutorizacaoRequest;
+import clientefeedback.aplicacaocliente.Services.SnackMessage;
+import clientefeedback.aplicacaocliente.Services.SnackMessageInterface;
 import clientefeedback.aplicacaocliente.Services.Url;
 
 public class CadastrarProdutoActivity extends AppCompatActivity {
@@ -319,10 +321,10 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         if (error.networkResponse != null) {
                             if (error.networkResponse.statusCode == 401) {
-                                Toast.makeText(CadastrarProdutoActivity.this, "Não autorizado", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CadastrarProdutoActivity.this, R.string.nao_autorizado, Toast.LENGTH_SHORT).show();
                             }
                         }else {
-                            Toast.makeText(CadastrarProdutoActivity.this, "Erro de conexao", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CadastrarProdutoActivity.this, R.string.erro_conexao, Toast.LENGTH_SHORT).show();
                         }
                     }
                 }){
