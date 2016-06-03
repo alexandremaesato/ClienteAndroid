@@ -149,7 +149,7 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
         imagemPerfil = (ImageView)rootView.findViewById(R.id.imagemPerfil);
         String url = null;
         if(empresa.hasImagemPerfil()) {
-            url = Url.url + empresa.getImagemPerfil().getCaminho();
+            url = Url.URL_IMAGEM + empresa.getImagemPerfil().getCaminho();
         }
         imageLoader.displayImage(url, imagemPerfil);
 
