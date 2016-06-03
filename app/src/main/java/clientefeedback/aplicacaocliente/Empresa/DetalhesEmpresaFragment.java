@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -74,6 +75,7 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
     TextView comentarioAvaliacao;
     ImageLoader imageLoader;
     SharedData sharedData;
+    CoordinatorLayout coordinatorLayout;
 
     LinearLayout areaAvaliacao;
     ImageButton btnEditarAvaliacao;
@@ -112,6 +114,8 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
         View rootView = inflater.inflate(R.layout.fragment_detalhes_empresa, container, false);
         btnFavorite = (ToggleButton)rootView.findViewById(R.id.btnFavorite);
         rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
+
+        coordinatorLayout = (CoordinatorLayout)rootView.findViewById(R.id.main_content);
 
         nomeEmpresa = (TextView)rootView.findViewById(R.id.tvNome);
         nomeEmpresa.setText(empresa.getNomeEmpresa());
@@ -286,6 +290,7 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
 
     public void loadComentarios(){
         ComentarioDetalhesRequest c = new ComentarioDetalhesRequest(getContext(), empresa.getEmpresaId());
+
 
 
     }
