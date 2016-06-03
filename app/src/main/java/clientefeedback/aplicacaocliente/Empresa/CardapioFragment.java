@@ -52,12 +52,12 @@ public class CardapioFragment extends Fragment{
         }
 
         private void createTabPagerItem(){
-            Fragment cardapio = ProdutoFragment.newInstance("bebidas");
-            cardapio.setArguments(bundle);
+
 
             carregaCategorias();
             for(int i =0; i< categorias.size(); i++){
-
+                Fragment cardapio = ProdutoFragment.newInstance("produto");
+                cardapio.setArguments(bundle);
                 mTabs.add(new TabPagerItem(Produto.CATEGORIAS[categorias.get(i)], cardapio));
             }
 //            mTabs.add(new TabPagerItem("Bebidas", cardapio));

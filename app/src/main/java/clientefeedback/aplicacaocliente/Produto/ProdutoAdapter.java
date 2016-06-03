@@ -74,7 +74,7 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
 
         mList.get(position).getImagemPerfil().getCaminho();
         //String url = Url.IP+"ServidorAplicativo/images/teste_1.jpg";
-        String url = Url.IP + mList.get(position).getImagemPerfil().getCaminho()+mList.get(position).getImagemPerfil().getNomeImagem();
+        String url = Url.URL_IMAGEM + mList.get(position).getImagemPerfil().getCaminho();
         ImageView iv = holder.ivProduto;
 
         imageLoader.displayImage(url, iv);
