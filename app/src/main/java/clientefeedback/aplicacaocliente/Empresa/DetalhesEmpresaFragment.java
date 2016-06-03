@@ -40,6 +40,7 @@ import clientefeedback.aplicacaocliente.MainFragment;
 import clientefeedback.aplicacaocliente.Models.Avaliacao;
 import clientefeedback.aplicacaocliente.Models.Comentario;
 import clientefeedback.aplicacaocliente.Models.Empresa;
+import clientefeedback.aplicacaocliente.Produto.CadastrarProdutoActivity;
 import clientefeedback.aplicacaocliente.R;
 import clientefeedback.aplicacaocliente.Services.ImageLoaderCustom;
 import clientefeedback.aplicacaocliente.Services.Url;
@@ -65,6 +66,7 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
     TextView endereco;
     TextView telefone;
     TextView descricao;
+    TextView adicionarProduto;
     ImageView imagemPerfil;
     Button avaliar;
     Button comentar;
@@ -173,12 +175,24 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
         areaAvaliacao = (LinearLayout) rootView.findViewById(R.id.areaAvaliacao);
         areaAvaliacao.setVisibility(View.GONE);
         avaliar.setVisibility(View.VISIBLE);
-        if(avaliacao.getNota() > 0 || avaliacao.getDescricao()!="") {
+        if(avaliacao.getNota() > 0 && avaliacao.getDescricao()!="") {
             areaAvaliacao.setVisibility(View.VISIBLE);
             avaliar.setVisibility(View.GONE);
             notaAvaliacao.setText(String.valueOf(avaliacao.getNota()));
             comentarioAvaliacao.setText(avaliacao.getDescricao());
         }
+
+        adicionarProduto = (TextView)rootView.findViewById(R.id.tvAdicionarProduto);
+        adicionarProduto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle b = new Bundle();
+                b.putInt("id", empresa.getEmpresaId());
+                Intent it = new Intent(getContext(), CadastrarProdutoActivity.class);
+                it.putExtras(b);
+                startActivity(it);
+            }
+        });
 
         rootView.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -259,6 +273,8 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
             if(resultCode == 1) // 1 is an arbitrary number, can be any int
             {
                 (new RequestAvaliacao(getContext(),getView(),avaliacao.getAvaliacaoid())).execute();
+                areaAvaliacao.setVisibility(View.VISIBLE);
+                avaliar.setVisibility(View.GONE);
             }
         }
     }

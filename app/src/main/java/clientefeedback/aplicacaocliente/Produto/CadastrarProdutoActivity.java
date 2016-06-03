@@ -97,7 +97,7 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
 
         Intent it = getIntent();
         Bundle param = it.getExtras();
-        idEmpresa = new Integer(param.getString("id"));
+        idEmpresa = new Integer(param.getInt("id"));
 
         nome      = (EditText)findViewById(R.id.editTextNomeProduto);
         descricao = (EditText)findViewById(R.id.editTextDescricaoProduto);

@@ -370,7 +370,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Medium Text"
+                        android:text="Todos cometários"
                         android:id="@+id/textView17"
                         android:gravity="right" />
 
