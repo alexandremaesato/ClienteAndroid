@@ -30,6 +30,7 @@
                     android:id="@+id/imagemPerfil"
                     android:layout_width="390dp"
                     android:layout_height="210dp"
+                    android:src="@drawable/ic_image_black_24dp"
                     android:focusable="true"
                     android:background="#ffffff" />
 

@@ -121,10 +121,10 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
         nomeEmpresa.setText(empresa.getNomeEmpresa());
 
         numComentarios = (TextView)rootView.findViewById(R.id.tvNumeroComentarios);
-        numComentarios.setText(String.valueOf(empresa.getComentarios().size()));
+        numComentarios.setText(String.valueOf(empresa.getQtdeComentarios()));
 
         numAvaliacoes = (TextView)rootView.findViewById(R.id.tvNumeroAvaliacoes);
-        numAvaliacoes.setText(String.valueOf(empresa.getAvaliacoes().size()));
+        numAvaliacoes.setText(String.valueOf(empresa.getQtdeAvaliacoes()));
 
         endereco = (TextView)rootView.findViewById(R.id.endereco);
         endereco.setText(empresa.getEndereco().getRua() + ", " + empresa.getEndereco().getNumero() + ", " + empresa.getEndereco().getBairro());
