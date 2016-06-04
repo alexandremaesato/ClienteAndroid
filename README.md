@@ -1,3 +1,9 @@
 # ClienteFeedBack
 
-No momento Projeto de Teste para Futuro Commit
+Para carregar o Volley
+
+
+git submodule init
+
+git submodule update
+
