@@ -40,6 +40,8 @@ public class ProdutoFragment extends Fragment implements RecyclerViewOnClickList
     private List<Produto> mList;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private Empresa empresa;
+    Bundle bundle;
+    int pos = 0;
 
     public static ProdutoFragment newInstance(String text){
         ProdutoFragment mFragment = new ProdutoFragment();
@@ -52,10 +54,11 @@ public class ProdutoFragment extends Fragment implements RecyclerViewOnClickList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle bundle = this.getArguments();
+       bundle = this.getArguments();
         if (bundle != null) {
             empresa = bundle.getParcelable("empresa");
         }
+        mList = getSetProdutoList(5);
     }
 
 
@@ -95,7 +98,7 @@ public class ProdutoFragment extends Fragment implements RecyclerViewOnClickList
             llm.setOrientation(LinearLayoutManager.VERTICAL);
             mRecyclerView.setLayoutManager(llm);
 
-            mList = getSetProdutoList(5);
+//            mList = getSetProdutoList(5);
             ProdutoAdapter adapter = new ProdutoAdapter(getActivity(), mList);
             adapter.setRecyclerViewOnClickListenerHack(this);
             mRecyclerView.setAdapter(adapter);
@@ -107,7 +110,7 @@ public class ProdutoFragment extends Fragment implements RecyclerViewOnClickList
 
                     if (ConnectionVerify.verifyConnection(getActivity())) {
                         ProdutoAdapter adapter = (ProdutoAdapter) mRecyclerView.getAdapter();
-                        List<Produto> listAux = getSetProdutoList(2);
+                        List<Produto> listAux = getSetProdutoList(5);
                         for (int i = 0; i < listAux.size(); i++) {
                             adapter.addListItem(listAux.get(i), 0);
                             mRecyclerView.getLayoutManager().smoothScrollToPosition(mRecyclerView, null, 0);
@@ -199,18 +202,21 @@ public class ProdutoFragment extends Fragment implements RecyclerViewOnClickList
 //    };
 
     public List<Produto> getSetProdutoList(int qtd){
-        if (!empresa.produtosIsEmpty()) {
-            List<Produto> produtos = new ArrayList<Produto>();
-            for(int i=0; i<qtd; i++) {
-                if(empresa.getProdutos().size() > i) {
-                    produtos.add(empresa.getProdutos().get(i));
-                }else{
-                    produtos.add(empresa.getProdutos().get(2));
+        List<Produto> lista = new ArrayList<>();
+        int size = empresa.getProdutos().size();
+        int n = bundle.getInt("categoria");
+
+        for(int i=0; i < qtd; i++) {
+            if(pos < size){
+                if(empresa.getProdutos().get(pos).getCategoria() == n) {
+                    lista.add(empresa.getProdutos().get(pos));
                 }
+            }else{
+                i = qtd+1;
             }
-            return produtos;
+            pos++;
         }
-        return null;
+        return(lista);
     }
 
     @Override
