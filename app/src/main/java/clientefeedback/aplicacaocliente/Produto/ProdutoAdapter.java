@@ -1,11 +1,19 @@
 package clientefeedback.aplicacaocliente.Produto;
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.media.Rating;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -16,11 +24,15 @@ import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import clientefeedback.aplicacaocliente.Avaliacao.AvaliacaoDialogFragment;
+import clientefeedback.aplicacaocliente.Empresa.PrincipalEmpresaFragment;
 import clientefeedback.aplicacaocliente.Interfaces.RecyclerViewOnClickListenerHack;
+import clientefeedback.aplicacaocliente.Models.Avaliacao;
 import clientefeedback.aplicacaocliente.Models.Produto;
 import clientefeedback.aplicacaocliente.R;
 import clientefeedback.aplicacaocliente.Services.ImageLoaderCustom;
 import clientefeedback.aplicacaocliente.Services.Url;
+import clientefeedback.aplicacaocliente.SharedData;
 
 /**
  * Created by Alexandre on 04/05/2016.
@@ -34,8 +46,10 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
     private int width;
     private int height;
     private ImageLoader imageLoader;
+    private FragmentManager fm;
 
-    public ProdutoAdapter(Context c, List<Produto> l) {
+    public ProdutoAdapter(Activity c, List<Produto> l) {
+        this.fm = fm;
         mContext = c;
         mList = l;
         mLayoutInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -59,14 +73,20 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
         holder.tvNome.setText(mList.get(position).getNomeProduto());
         holder.tvDescricao.setText(mList.get(position).getDescricao());
         holder.ratingBar.setRating(4);
-        holder.preco.setText("R$"+String.format("%.2f",mList.get(position).getPreco().floatValue()));
+        holder.preco.setText("R$" + String.format("%.2f", mList.get(position).getPreco().floatValue()));
 
         mList.get(position).getImagemPerfil().getCaminho();
-
         String url = Url.URL_IMAGEM + mList.get(position).getImagemPerfil().getCaminho();
         ImageView iv = holder.ivProduto;
-
         imageLoader.displayImage(url, iv);
+
+
+        holder.avaliar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //loadDialogAvaliacao();
+            }
+        });
 
     }
 
@@ -95,6 +115,7 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
         public TextView tvDescricao;
         public RatingBar ratingBar;
         public TextView preco;
+        public Button avaliar;
 
 
         public MyViewHolder(View itemView) {
@@ -106,6 +127,7 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
             ivProduto = (ImageView) itemView.findViewById(R.id.iv_produto);
             ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
             preco = (TextView) itemView.findViewById(R.id.preco);
+            avaliar = (Button) itemView.findViewById(R.id.btnAvaliar);
 
 
 
@@ -119,5 +141,13 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
             }
         }
     }
+
+//    public void loadDialogAvaliacao(){
+//        FragmentTransaction ft = ((FragmentActivity)mContext).getFragmentManager().beginTransaction();
+//        AvaliacaoDialogFragment avaliacaoDialogFragment = new AvaliacaoDialogFragment();
+//        avaliacaoDialogFragment.setArguments(getBundleAvaliacao());
+//        avaliacaoDialogFragment.setTargetFragment(this, 1);
+//        avaliacaoDialogFragment.show(ft, "dialog");
+//    }
 }
 
