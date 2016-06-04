@@ -40,7 +40,6 @@ public class AvaliacaoDialogFragment extends DialogFragment implements Transacti
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             avaliacao = bundle.getParcelable("avaliacao");
-            avaliacao = bundle.getParcelable("avaliacao");
         }
 
     }

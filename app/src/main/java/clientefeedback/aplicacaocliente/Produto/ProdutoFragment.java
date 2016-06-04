@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,20 +20,31 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import clientefeedback.aplicacaocliente.Avaliacao.AvaliacaoDialogFragment;
 import clientefeedback.aplicacaocliente.Empresa.CadastrarEmpresaActivity;
+import clientefeedback.aplicacaocliente.Interfaces.OnItemClickListener;
 import clientefeedback.aplicacaocliente.Interfaces.RecyclerViewOnClickListenerHack;
+import clientefeedback.aplicacaocliente.Models.Avaliacao;
 import clientefeedback.aplicacaocliente.Models.Empresa;
 import clientefeedback.aplicacaocliente.Models.Produto;
 import clientefeedback.aplicacaocliente.R;
+import clientefeedback.aplicacaocliente.RequestData;
 import clientefeedback.aplicacaocliente.Services.ConnectionVerify;
+import clientefeedback.aplicacaocliente.Services.Url;
+import clientefeedback.aplicacaocliente.SharedData;
+import clientefeedback.aplicacaocliente.Transaction;
+import clientefeedback.aplicacaocliente.VolleyConGET;
 
 /**
  * Created by Alexandre on 04/05/2016.
  */
-public class ProdutoFragment extends Fragment implements RecyclerViewOnClickListenerHack {
+public class ProdutoFragment extends Fragment implements RecyclerViewOnClickListenerHack, OnItemClickListener, Transaction {
 
     private boolean mSearchCheck;
     private static final String TEXT_FRAGMENT = "TEXT_FRAGMENT";
@@ -40,8 +52,12 @@ public class ProdutoFragment extends Fragment implements RecyclerViewOnClickList
     private List<Produto> mList;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private Empresa empresa;
+    private int idProdutoAvaliacao;
+    Avaliacao avaliacao;
     Bundle bundle;
     int pos = 0;
+    AvaliacaoDialogFragment avaliacaoDialogFragment = new AvaliacaoDialogFragment();
+    FragmentTransaction ft;
 
     public static ProdutoFragment newInstance(String text){
         ProdutoFragment mFragment = new ProdutoFragment();
@@ -99,7 +115,7 @@ public class ProdutoFragment extends Fragment implements RecyclerViewOnClickList
             mRecyclerView.setLayoutManager(llm);
 
 //            mList = getSetProdutoList(5);
-            ProdutoAdapter adapter = new ProdutoAdapter(getActivity(), mList);
+            ProdutoAdapter adapter = new ProdutoAdapter(getActivity(), mList, this);
             adapter.setRecyclerViewOnClickListenerHack(this);
             mRecyclerView.setAdapter(adapter);
 
@@ -134,7 +150,7 @@ public class ProdutoFragment extends Fragment implements RecyclerViewOnClickList
             });
         }
 
-        rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
+        rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         return rootView;
     }
 
@@ -145,26 +161,6 @@ public class ProdutoFragment extends Fragment implements RecyclerViewOnClickList
         setHasOptionsMenu(true);
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        // TODO Auto-generated method stub
-//        super.onCreateOptionsMenu(menu, inflater);
-//        inflater.inflate(R.menu.menu, menu);
-//
-//        //Select search item
-//        final MenuItem menuItem = menu.findItem(R.id.menu_search);
-//        menuItem.setVisible(true);
-//
-//        SearchView searchView = (SearchView) menuItem.getActionView();
-//        searchView.setQueryHint("Busca");
-//
-//        ((EditText) searchView.findViewById(R.id.search_src_text))
-//                .setHintTextColor(getResources().getColor(R.color.colorPrimary));
-//        searchView.setOnQueryTextListener(onQuerySearchView);
-//
-//        menu.findItem(R.id.menu_add).setVisible(true);
-//        mSearchCheck = false;
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -185,21 +181,6 @@ public class ProdutoFragment extends Fragment implements RecyclerViewOnClickList
         return true;
     }
 
-//    private SearchView.OnQueryTextListener onQuerySearchView = new SearchView.OnQueryTextListener() {
-//        @Override
-//        public boolean onQueryTextSubmit(String s) {
-//            Toast.makeText(getContext(), "Submitou", Toast.LENGTH_SHORT).show();
-//            return false;
-//        }
-//
-//        @Override
-//        public boolean onQueryTextChange(String s) {
-//            if (mSearchCheck){
-//                //Toast.makeText(getContext(), "Teste", Toast.LENGTH_SHORT).show();
-//            }
-//            return false;
-//        }
-//    };
 
     public List<Produto> getSetProdutoList(int qtd){
         List<Produto> lista = new ArrayList<>();
@@ -229,6 +210,51 @@ public class ProdutoFragment extends Fragment implements RecyclerViewOnClickList
     @Override
     public void onLongPressClickListener(View view, int position) {
 
+    }
+
+    @Override
+    public void onItemClicked(View v, int id) {
+        new VolleyConGET(getContext(),this).execute();
+    }
+
+    public Bundle getBundleAvaliacao(int id){
+        idProdutoAvaliacao = id;
+        Bundle bundle = new Bundle();
+        SharedData sharedData = new SharedData(getContext());
+        Avaliacao avaliacao = new Avaliacao();
+        avaliacao.setAvaliadoid(id);
+        avaliacao.setPessoaid(sharedData.getPessoaId());
+        avaliacao.setTipoAvalicao(Avaliacao.PRODUTO);
+        bundle.putParcelable("avaliacao", avaliacao);
+        return bundle;
+    }
+
+
+    @Override
+    public void doBefore() {
+        ft = getFragmentManager().beginTransaction();
+        avaliacaoDialogFragment.setArguments(getBundleAvaliacao(idProdutoAvaliacao));
+        avaliacaoDialogFragment.setTargetFragment(this, 1);
+        avaliacao = new Avaliacao();
+        SharedData sd = new SharedData(getContext());
+        avaliacao.setPessoaid(sd.getPessoaId());
+        avaliacao.setAvaliadoid(idProdutoAvaliacao);
+        avaliacao.setTipoAvalicao(Avaliacao.PRODUTO);
+
+
+    }
+
+    @Override
+    public void doAfter(String answer) {
+        avaliacaoDialogFragment.show(ft, "dialog");
+    }
+
+    @Override
+    public RequestData getRequestData() {
+        HashMap<String,String> params = new HashMap<>();
+        Gson gson = new Gson();
+        params.put("avaliacao", gson.toJson(avaliacao));
+        return new RequestData(Url.getUrl()+"avaliacao/getAvaliacao", "", params);
     }
 }
 

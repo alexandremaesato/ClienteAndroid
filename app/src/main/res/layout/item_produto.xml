@@ -169,7 +169,7 @@
                 android:layout_width="100dp"
                 android:layout_height="25dp"
                 android:text="Avaliar"
-                android:id="@+id/button2"
+                android:id="@+id/btnAvaliarProduto"
                 android:background="@drawable/buttons"
                 android:textColor="@color/colorPrimary"
                 android:layout_alignParentTop="true"

@@ -14,6 +14,7 @@ public class Avaliacao implements Parcelable {
     //TIPOS DE AVALIACOES
 
     public static String EMPRESA = "empresa";
+    public static String PRODUTO = "produto";
 
     private int avaliacaoid;
     private int avaliadoid;

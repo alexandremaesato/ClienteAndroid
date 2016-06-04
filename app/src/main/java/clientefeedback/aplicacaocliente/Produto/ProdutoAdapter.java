@@ -20,12 +20,15 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import clientefeedback.aplicacaocliente.Avaliacao.AvaliacaoDialogFragment;
 import clientefeedback.aplicacaocliente.Empresa.PrincipalEmpresaFragment;
+import clientefeedback.aplicacaocliente.Interfaces.OnItemClickListener;
 import clientefeedback.aplicacaocliente.Interfaces.RecyclerViewOnClickListenerHack;
 import clientefeedback.aplicacaocliente.Models.Avaliacao;
 import clientefeedback.aplicacaocliente.Models.Produto;
@@ -33,11 +36,13 @@ import clientefeedback.aplicacaocliente.R;
 import clientefeedback.aplicacaocliente.Services.ImageLoaderCustom;
 import clientefeedback.aplicacaocliente.Services.Url;
 import clientefeedback.aplicacaocliente.SharedData;
+import clientefeedback.aplicacaocliente.Transaction;
+import clientefeedback.aplicacaocliente.VolleyConGET;
 
 /**
  * Created by Alexandre on 04/05/2016.
  */
-public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHolder> {
+public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHolder>{
     private Context mContext;
     private List<Produto> mList;
     private LayoutInflater mLayoutInflater;
@@ -47,8 +52,12 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
     private int height;
     private ImageLoader imageLoader;
     private FragmentManager fm;
+    private OnItemClickListener listener;
+    private int id;
+    Transaction t;
 
-    public ProdutoAdapter(Activity c, List<Produto> l) {
+    public ProdutoAdapter(Activity c, List<Produto> l, OnItemClickListener listener) {
+        this.listener = listener;
         this.fm = fm;
         mContext = c;
         mList = l;
@@ -80,11 +89,11 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
         ImageView iv = holder.ivProduto;
         imageLoader.displayImage(url, iv);
 
-
+        this.id = mList.get(position).getProdutoid();
         holder.avaliar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //loadDialogAvaliacao();
+                listener.onItemClicked(view, id);
             }
         });
 
@@ -127,7 +136,7 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
             ivProduto = (ImageView) itemView.findViewById(R.id.iv_produto);
             ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
             preco = (TextView) itemView.findViewById(R.id.preco);
-            avaliar = (Button) itemView.findViewById(R.id.btnAvaliar);
+            avaliar = (Button) itemView.findViewById(R.id.btnAvaliarProduto);
 
 
 
@@ -142,12 +151,7 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
         }
     }
 
-//    public void loadDialogAvaliacao(){
-//        FragmentTransaction ft = ((FragmentActivity)mContext).getFragmentManager().beginTransaction();
-//        AvaliacaoDialogFragment avaliacaoDialogFragment = new AvaliacaoDialogFragment();
-//        avaliacaoDialogFragment.setArguments(getBundleAvaliacao());
-//        avaliacaoDialogFragment.setTargetFragment(this, 1);
-//        avaliacaoDialogFragment.show(ft, "dialog");
-//    }
+
+
 }
 
