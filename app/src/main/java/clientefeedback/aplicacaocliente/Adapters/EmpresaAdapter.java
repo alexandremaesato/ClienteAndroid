@@ -72,7 +72,7 @@ public class EmpresaAdapter extends RecyclerView.Adapter<EmpresaAdapter.MyViewHo
         holder.tvAvaliacao.setNumStars(mList.get(position).getAvaliacaoNota());   //setText(String.valueOf(mList.get(position).getAvaliacaoNota()));
 
 
-        Uri uri = Uri.parse(Url.IP + "ServidorAplicativo/" + mList.get(position).getImagemPerfil().getCaminho());
+        Uri uri = Uri.parse(Url.URL_IMAGEM + mList.get(position).getImagemPerfil().getCaminho());
 
         // Resizing image using Fresco
             ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)

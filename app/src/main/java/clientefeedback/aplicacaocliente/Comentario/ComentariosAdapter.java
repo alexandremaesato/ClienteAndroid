@@ -71,7 +71,7 @@ public class ComentariosAdapter extends BaseAdapter{
         ImageButton iBtn2 = (ImageButton)layout.findViewById(R.id.iBtn2);
         ImageButton iBtn3 = (ImageButton)layout.findViewById(R.id.iBtn3);
         ImageButton iBtn4 = (ImageButton)layout.findViewById(R.id.iBtn4);
-
+        layout.requestFocus(R.id.imagemPerfil);
         return layout;
     }
 }

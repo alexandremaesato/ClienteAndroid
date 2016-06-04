@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -40,6 +41,7 @@ import clientefeedback.aplicacaocliente.MainFragment;
 import clientefeedback.aplicacaocliente.Models.Avaliacao;
 import clientefeedback.aplicacaocliente.Models.Comentario;
 import clientefeedback.aplicacaocliente.Models.Empresa;
+import clientefeedback.aplicacaocliente.Produto.CadastrarProdutoActivity;
 import clientefeedback.aplicacaocliente.R;
 import clientefeedback.aplicacaocliente.Services.ImageLoaderCustom;
 import clientefeedback.aplicacaocliente.Services.Url;
@@ -65,6 +67,7 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
     TextView endereco;
     TextView telefone;
     TextView descricao;
+    TextView adicionarProduto;
     ImageView imagemPerfil;
     Button avaliar;
     Button comentar;
@@ -72,6 +75,7 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
     TextView comentarioAvaliacao;
     ImageLoader imageLoader;
     SharedData sharedData;
+    CoordinatorLayout coordinatorLayout;
 
     LinearLayout areaAvaliacao;
     ImageButton btnEditarAvaliacao;
@@ -111,14 +115,16 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
         btnFavorite = (ToggleButton)rootView.findViewById(R.id.btnFavorite);
         rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
 
+        coordinatorLayout = (CoordinatorLayout)rootView.findViewById(R.id.main_content);
+
         nomeEmpresa = (TextView)rootView.findViewById(R.id.tvNome);
         nomeEmpresa.setText(empresa.getNomeEmpresa());
 
         numComentarios = (TextView)rootView.findViewById(R.id.tvNumeroComentarios);
-        numComentarios.setText(String.valueOf(empresa.getComentarios().size()));
+        numComentarios.setText(String.valueOf(empresa.getQtdeComentarios()));
 
         numAvaliacoes = (TextView)rootView.findViewById(R.id.tvNumeroAvaliacoes);
-        numAvaliacoes.setText(String.valueOf(empresa.getAvaliacoes().size()));
+        numAvaliacoes.setText(String.valueOf(empresa.getQtdeAvaliacoes()));
 
         endereco = (TextView)rootView.findViewById(R.id.endereco);
         endereco.setText(empresa.getEndereco().getRua() + ", " + empresa.getEndereco().getNumero() + ", " + empresa.getEndereco().getBairro());
@@ -147,7 +153,7 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
         imagemPerfil = (ImageView)rootView.findViewById(R.id.imagemPerfil);
         String url = null;
         if(empresa.hasImagemPerfil()) {
-            url = Url.url + empresa.getImagemPerfil().getCaminho();
+            url = Url.URL_IMAGEM + empresa.getImagemPerfil().getCaminho();
         }
         imageLoader.displayImage(url, imagemPerfil);
 
@@ -173,12 +179,24 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
         areaAvaliacao = (LinearLayout) rootView.findViewById(R.id.areaAvaliacao);
         areaAvaliacao.setVisibility(View.GONE);
         avaliar.setVisibility(View.VISIBLE);
-        if(avaliacao.getNota() > 0 || avaliacao.getDescricao()!="") {
+        if(avaliacao.getNota() > 0 && avaliacao.getDescricao()!="") {
             areaAvaliacao.setVisibility(View.VISIBLE);
             avaliar.setVisibility(View.GONE);
             notaAvaliacao.setText(String.valueOf(avaliacao.getNota()));
             comentarioAvaliacao.setText(avaliacao.getDescricao());
         }
+
+        adicionarProduto = (TextView)rootView.findViewById(R.id.tvAdicionarProduto);
+        adicionarProduto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle b = new Bundle();
+                b.putInt("id", empresa.getEmpresaId());
+                Intent it = new Intent(getContext(), CadastrarProdutoActivity.class);
+                it.putExtras(b);
+                startActivity(it);
+            }
+        });
 
         rootView.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -259,6 +277,8 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
             if(resultCode == 1) // 1 is an arbitrary number, can be any int
             {
                 (new RequestAvaliacao(getContext(),getView(),avaliacao.getAvaliacaoid())).execute();
+                areaAvaliacao.setVisibility(View.VISIBLE);
+                avaliar.setVisibility(View.GONE);
             }
         }
     }
@@ -270,6 +290,7 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
 
     public void loadComentarios(){
         ComentarioDetalhesRequest c = new ComentarioDetalhesRequest(getContext(), empresa.getEmpresaId());
+
 
 
     }

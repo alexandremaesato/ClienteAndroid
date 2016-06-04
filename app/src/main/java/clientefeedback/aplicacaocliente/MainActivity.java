@@ -376,13 +376,13 @@ public class MainActivity extends AppCompatActivity
         if(answer != null) {
             Gson gson = new Gson();
             try {
-                String valor = gson.fromJson(answer, String.class);
+                String id = gson.fromJson(answer, String.class);
                 String novoLogin = email.getText().toString();
                 String novaSenha = senha.getText().toString();
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString(getString(R.string.login), novoLogin);
                 editor.putString(getString(R.string.password), novaSenha);
-                editor.putString(getString(R.string.id_pessoa), valor);
+                editor.putInt(getString(R.string.id_pessoa), Integer.parseInt(id));
                 editor.commit();
                 finish();
                 startActivity(getIntent());

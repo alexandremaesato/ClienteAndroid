@@ -6,8 +6,10 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
@@ -72,10 +74,13 @@ public class ComentarioDetalhesRequest implements Transaction {
 
             loadAdapterComentarioDetalhes();
             progressBar.setVisibility(View.GONE);
-            scrollView.setPivotX(0);
-            scrollView.setPivotY(0);
+
 
         } catch (JSONException e) {
+            Toast.makeText(context, "Erro ao recuperar dados", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+
+        } catch(Exception e){
             e.printStackTrace();
         }
 

@@ -15,8 +15,10 @@ import java.util.List;
 
 import clientefeedback.aplicacaocliente.MainFragment;
 import clientefeedback.aplicacaocliente.Models.Empresa;
+import clientefeedback.aplicacaocliente.Models.Produto;
 import clientefeedback.aplicacaocliente.Produto.ProdutoFragment;
 import clientefeedback.aplicacaocliente.R;
+import clientefeedback.aplicacaocliente.Services.Lista;
 import clientefeedback.aplicacaocliente.TabPagerItem;
 import clientefeedback.aplicacaocliente.ViewPagerAdapter;
 
@@ -29,6 +31,7 @@ public class CardapioFragment extends Fragment{
         private static final String TEXT_FRAGMENT = "TEXT_FRAGMENT";
         private Empresa empresa;
         private Bundle bundle;
+        private Lista<Integer> categorias = new Lista<>();
 
         public static CardapioFragment newInstance(String text){
             CardapioFragment mFragment = new CardapioFragment();
@@ -49,20 +52,24 @@ public class CardapioFragment extends Fragment{
         }
 
         private void createTabPagerItem(){
-            Fragment cardapio = ProdutoFragment.newInstance("bebidas");
-            cardapio.setArguments(bundle);
-            mTabs.add(new TabPagerItem("Bebidas", cardapio));
 
-            mTabs.add(new TabPagerItem("Hamburguers", MainFragment.newInstance("Hamburguers")));
-            mTabs.add(new TabPagerItem("Petiscos", MainFragment.newInstance("Petiscos")));
-            mTabs.add(new TabPagerItem("Sobremesas", MainFragment.newInstance("Sobremesas")));
+            carregaCategorias();
+
+            for(int i =0; i< categorias.size(); i++){
+                Bundle b = new Bundle();
+                b.putAll(bundle);
+                Fragment cardapio = ProdutoFragment.newInstance(categorias.get(i).toString());
+                b.putInt("categoria", categorias.get(i));
+                cardapio.setArguments(b);
+                mTabs.add(new TabPagerItem(Produto.CATEGORIAS[categorias.get(i)], cardapio));
+            }
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_cardapio_empresa, container, false);
-            rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
+            rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             //PagerTitleStrip pagerTitleStrip = (PagerTitleStrip)rootView.findViewById(R.id.titlestrip);
             HorizontalScrollView scrollView = new HorizontalScrollView(rootView.getContext());
 
@@ -84,6 +91,18 @@ public class CardapioFragment extends Fragment{
                 mSlidingTabLayout.setElevation(15);
             }
             mSlidingTabLayout.setupWithViewPager(mViewPager);
+        }
+
+        public void carregaCategorias(){
+            List<Produto> produtos = empresa.getProdutos();
+            if(!empresa.produtosIsEmpty()) {
+                for (int i = 0; i <empresa.getProdutos().size(); i++){
+                    if(!categorias.contains(produtos.get(i).getCategoria())){
+                        categorias.add(produtos.get(i).getCategoria());
+                    }
+
+                }
+            }
         }
 
 }
