@@ -45,18 +45,6 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
         height = (width / 16) * 9;
         imageLoader = ImageLoaderCustom.getImageloader(mContext);
 
-
-//        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(mContext)
-//                .threadPoolSize(5) // default
-//                .denyCacheImageMultipleSizesInMemory()
-//                .memoryCache(new LruMemoryCache(2 * 1024 * 1024))
-//                .memoryCacheSize(2 * 1024 * 1024)
-//                .diskCacheSize(50 * 1024 * 1024)
-//                .diskCacheFileCount(100)
-//                .writeDebugLogs()
-//                .build();
-//        imageLoader = ImageLoader.getInstance();
-//        imageLoader.init(config);
     }
 
     @Override
@@ -71,20 +59,15 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
         holder.tvNome.setText(mList.get(position).getNomeProduto());
         holder.tvDescricao.setText(mList.get(position).getDescricao());
         holder.ratingBar.setRating(4);
+        holder.preco.setText("R$"+String.format("%.2f",mList.get(position).getPreco().floatValue()));
 
         mList.get(position).getImagemPerfil().getCaminho();
-        //String url = Url.IP+"ServidorAplicativo/images/teste_1.jpg";
+
         String url = Url.URL_IMAGEM + mList.get(position).getImagemPerfil().getCaminho();
         ImageView iv = holder.ivProduto;
 
         imageLoader.displayImage(url, iv);
 
-
-//        Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), mList.get(position).getPhoto());
-//        bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
-//
-//        bitmap = ImageHelper.getRoundedCornerBitmap(mContext, bitmap, 4, width, height, false, false, true, true);
-//        holder.ivProduto.setImageBitmap(bitmap);
     }
 
     @Override
@@ -111,6 +94,7 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
         public TextView tvNome;
         public TextView tvDescricao;
         public RatingBar ratingBar;
+        public TextView preco;
 
 
         public MyViewHolder(View itemView) {
@@ -121,6 +105,7 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
             tvDescricao = (TextView) itemView.findViewById(R.id.tv_descricao);
             ivProduto = (ImageView) itemView.findViewById(R.id.iv_produto);
             ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
+            preco = (TextView) itemView.findViewById(R.id.preco);
 
 
 
