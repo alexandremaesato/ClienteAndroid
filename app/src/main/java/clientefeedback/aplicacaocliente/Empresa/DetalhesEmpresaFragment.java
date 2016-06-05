@@ -121,6 +121,9 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
         nomeEmpresa = (TextView)rootView.findViewById(R.id.tvNome);
         nomeEmpresa.setText(empresa.getNomeEmpresa());
 
+        descricao = (TextView)rootView.findViewById(R.id.tvDescricao);
+        descricao.setText(empresa.getDescricao());
+
         numComentarios = (TextView)rootView.findViewById(R.id.tvNumeroComentarios);
         numComentarios.setText(String.valueOf(empresa.getQtdeComentarios()));
 
