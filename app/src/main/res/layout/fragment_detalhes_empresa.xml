@@ -410,7 +410,7 @@
 
             <ListView
                 android:layout_width="fill_parent"
-                android:layout_height="750dp"
+                android:layout_height="500dp"
                 android:id="@+id/lvComentarios"
                 android:stackFromBottom="false" />
 
