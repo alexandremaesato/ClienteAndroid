@@ -42,9 +42,11 @@ import clientefeedback.aplicacaocliente.MainFragment;
 import clientefeedback.aplicacaocliente.Models.Avaliacao;
 import clientefeedback.aplicacaocliente.Models.Comentario;
 import clientefeedback.aplicacaocliente.Models.Empresa;
+import clientefeedback.aplicacaocliente.Models.Produto;
 import clientefeedback.aplicacaocliente.Produto.CadastrarProdutoActivity;
 import clientefeedback.aplicacaocliente.R;
 import clientefeedback.aplicacaocliente.Services.ImageLoaderCustom;
+import clientefeedback.aplicacaocliente.Services.Lista;
 import clientefeedback.aplicacaocliente.Services.Url;
 import clientefeedback.aplicacaocliente.SharedData;
 import clientefeedback.aplicacaocliente.TabPagerItem;
@@ -126,6 +128,9 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
 
         numComentarios = (TextView)rootView.findViewById(R.id.tvNumeroComentarios);
         numComentarios.setText(String.valueOf(empresa.getQtdeComentarios()));
+
+        culinaria = (TextView)rootView.findViewById(R.id.tvCulinaria);
+        culinaria.setText(mountStringCulinaria());
 
         numAvaliacoes = (TextView)rootView.findViewById(R.id.tvNumeroAvaliacoes);
         numAvaliacoes.setText(String.valueOf(empresa.getQtdeAvaliacoes()));
@@ -313,6 +318,22 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
             result += empresa.getEndereco().getCidade()+" ";
 
         return result;
+    }
+
+    private String mountStringCulinaria(){
+        Lista<Integer> culinarias = new Lista<>();
+        String culinaria = "";
+        for(int i=0; i<empresa.getProdutos().size(); i++){
+            if(!culinarias.contains(empresa.getProdutos().get(i).getCulinaria())){
+                culinarias.add(empresa.getProdutos().get(i).getCulinaria());
+                if(culinarias.size() > 1){
+                    culinaria += ", ";
+                }
+                culinaria += getResources().getStringArray(R.array.tipo_cozinhas)[i];
+            }
+        }
+        return culinaria;
+
     }
 
 

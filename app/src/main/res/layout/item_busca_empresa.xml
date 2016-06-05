@@ -96,7 +96,9 @@
                 android:layout_below="@+id/iv_empresa"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:paddingBottom="10dp" />
+                android:paddingBottom="10dp"
+                android:maxLines="3"
+                android:ellipsize="end" />
         </LinearLayout>
 
         <ImageButton
