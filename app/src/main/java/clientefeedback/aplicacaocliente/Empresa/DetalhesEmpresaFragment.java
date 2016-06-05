@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -127,7 +128,7 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
         numAvaliacoes.setText(String.valueOf(empresa.getQtdeAvaliacoes()));
 
         endereco = (TextView)rootView.findViewById(R.id.endereco);
-        endereco.setText(empresa.getEndereco().getRua() + ", " + empresa.getEndereco().getNumero() + ", " + empresa.getEndereco().getBairro());
+        endereco.setText(mountStringAddress());
 
         btnEditarAvaliacao = (ImageButton)rootView.findViewById(R.id.btnEditarAvaliacao);
         btnEditarAvaliacao.setOnClickListener(new View.OnClickListener() {
@@ -290,9 +291,25 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
 
     public void loadComentarios(){
         ComentarioDetalhesRequest c = new ComentarioDetalhesRequest(getContext(), empresa.getEmpresaId());
+    }
+
+    private String mountStringAddress(){
+        String result = "";
 
 
+        if(empresa.getEndereco().getRua() != null)
+            result += empresa.getEndereco().getRua()+" ";
 
+        if(empresa.getEndereco().getNumero() != null )
+            result += empresa.getEndereco().getNumero()+" ";
+
+        if(empresa.getEndereco().getBairro() != null)
+            result += empresa.getEndereco().getBairro()+" ";
+
+        if(empresa.getEndereco().getCidade() != null)
+            result += empresa.getEndereco().getCidade()+" ";
+
+        return result;
     }
 
 
