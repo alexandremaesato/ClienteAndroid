@@ -23,6 +23,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -102,7 +103,12 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
         nome      = (EditText)findViewById(R.id.editTextNomeProduto);
         descricao = (EditText)findViewById(R.id.editTextDescricaoProduto);
         preco     = (EditText)findViewById(R.id.editTextPreco);
+
         categoria = (Spinner) findViewById(R.id.spcategoria);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this,   android.R.layout.simple_spinner_item, Produto.CATEGORIAS);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+        categoria.setAdapter(spinnerArrayAdapter);
+
         culinaria = (Spinner) findViewById(R.id.spculinaria);
         ivImage   = (ImageView) findViewById(R.id.ivImage);
 

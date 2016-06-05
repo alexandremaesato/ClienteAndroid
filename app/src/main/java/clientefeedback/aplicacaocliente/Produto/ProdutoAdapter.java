@@ -86,9 +86,11 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
             holder.ratingBar.setRating(mList.get(position).getAvaliacaoGeral());
         }
         holder.preco.setText("R$" + String.format("%.2f", mList.get(position).getPreco().floatValue()));
+        String url;
+        url = Url.URL_IMAGEM + "/images/sem_imagem.jpg";
+        url = Url.URL_IMAGEM + mList.get(position).getImagemPerfil().getCaminho();
 
-        mList.get(position).getImagemPerfil().getCaminho();
-        String url = Url.URL_IMAGEM + mList.get(position).getImagemPerfil().getCaminho();
+
         ImageView iv = holder.ivProduto;
         imageLoader.displayImage(url, iv);
 
