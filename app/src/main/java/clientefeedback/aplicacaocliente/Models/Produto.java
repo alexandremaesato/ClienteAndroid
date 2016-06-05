@@ -25,6 +25,7 @@ public class Produto implements Parcelable {
     private List<Avaliacao> avaliacoes;
     private int qtdeComentarios;
     private int qtdeAvaliacoes;
+    private int avaliacaoGeral;
     private int empresaid;
 
     public Produto(){
@@ -43,6 +44,7 @@ public class Produto implements Parcelable {
         imagensOficiais = in.createTypedArrayList(Imagem.CREATOR);
         comentarios = in.createTypedArrayList(Comentario.CREATOR);
         avaliacoes = in.createTypedArrayList(Avaliacao.CREATOR);
+        avaliacaoGeral = in.readInt();
         qtdeComentarios = in.readInt();
         qtdeAvaliacoes = in.readInt();
         empresaid = in.readInt();
@@ -164,6 +166,13 @@ public class Produto implements Parcelable {
         this.qtdeAvaliacoes = qtdeAvaliacoes;
     }
 
+    public int getAvaliacaoGeral() {
+        return avaliacaoGeral;
+    }
+
+    public void setAvaliacaoGeral(int avaliacaoGeral) {
+        this.avaliacaoGeral = avaliacaoGeral;
+    }
 
     public int getEmpresaid() {
         return empresaid;
@@ -191,6 +200,7 @@ public class Produto implements Parcelable {
         parcel.writeValue(imagensOficiais);
         parcel.writeValue(comentarios);
         parcel.writeValue(avaliacoes);
+        parcel.writeInt(avaliacaoGeral);
         parcel.writeInt(qtdeComentarios);
         parcel.writeInt(qtdeAvaliacoes);
         parcel.writeInt(empresaid);

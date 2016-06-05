@@ -214,11 +214,11 @@ public class ProdutoFragment extends Fragment implements RecyclerViewOnClickList
 
     @Override
     public void onItemClicked(View v, int id) {
+        idProdutoAvaliacao = id;
         new VolleyConGET(getContext(),this).execute();
     }
 
     public Bundle getBundleAvaliacao(int id){
-        idProdutoAvaliacao = id;
         Bundle bundle = new Bundle();
         SharedData sharedData = new SharedData(getContext());
         Avaliacao avaliacao = new Avaliacao();
@@ -233,28 +233,45 @@ public class ProdutoFragment extends Fragment implements RecyclerViewOnClickList
     @Override
     public void doBefore() {
         ft = getFragmentManager().beginTransaction();
-        avaliacaoDialogFragment.setArguments(getBundleAvaliacao(idProdutoAvaliacao));
-        avaliacaoDialogFragment.setTargetFragment(this, 1);
-        avaliacao = new Avaliacao();
-        SharedData sd = new SharedData(getContext());
-        avaliacao.setPessoaid(sd.getPessoaId());
-        avaliacao.setAvaliadoid(idProdutoAvaliacao);
-        avaliacao.setTipoAvalicao(Avaliacao.PRODUTO);
+
 
 
     }
 
     @Override
     public void doAfter(String answer) {
+        Gson gson = new Gson();
+        avaliacaoDialogFragment = new AvaliacaoDialogFragment();
+        try {
+            avaliacao = gson.fromJson(answer, Avaliacao.class);
+            bundle.putParcelable("avaliacao", avaliacao);
+            avaliacaoDialogFragment.setArguments(bundle);
+        }catch (Exception e){
+           loadAvaliacao();
+            avaliacaoDialogFragment.setArguments(getBundleAvaliacao(idProdutoAvaliacao));
+            Toast.makeText(getContext(), "Sem avaliação", Toast.LENGTH_SHORT).show();
+        }
+
+        avaliacaoDialogFragment.setTargetFragment(this, 1);
+
         avaliacaoDialogFragment.show(ft, "dialog");
+
     }
 
     @Override
     public RequestData getRequestData() {
         HashMap<String,String> params = new HashMap<>();
         Gson gson = new Gson();
+        loadAvaliacao();
         params.put("avaliacao", gson.toJson(avaliacao));
-        return new RequestData(Url.getUrl()+"avaliacao/getAvaliacao", "", params);
+        return new RequestData(Url.getUrl()+"avaliacao/getAvaliacao/"+avaliacao.getPessoaid()+"/"+idProdutoAvaliacao+"/"+avaliacao.getTipoAvalicao(), "", params);
     }
+     private void loadAvaliacao(){
+         avaliacao = new Avaliacao();
+         SharedData sd = new SharedData(getContext());
+         avaliacao.setPessoaid(sd.getPessoaId());
+         avaliacao.setAvaliadoid(idProdutoAvaliacao);
+         avaliacao.setTipoAvalicao(Avaliacao.PRODUTO);
+     }
 }
 

@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -78,10 +79,12 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.tvNome.setText(mList.get(position).getNomeProduto());
         holder.tvDescricao.setText(mList.get(position).getDescricao());
-        holder.ratingBar.setRating(4);
+        if(mList.get(position).getAvaliacaoGeral()>0) {
+            holder.ratingBar.setRating(mList.get(position).getAvaliacaoGeral());
+        }
         holder.preco.setText("R$" + String.format("%.2f", mList.get(position).getPreco().floatValue()));
 
         mList.get(position).getImagemPerfil().getCaminho();
@@ -93,7 +96,8 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
         holder.avaliar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onItemClicked(view, id);
+                //Toast.makeText(mContext, String.valueOf(mList.get(position).getProdutoid()), Toast.LENGTH_SHORT).show();
+                listener.onItemClicked(view, mList.get(position).getProdutoid());
             }
         });
 

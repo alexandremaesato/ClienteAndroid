@@ -69,6 +69,7 @@ public class AvaliacaoDialogFragment extends DialogFragment implements Transacti
                 doRequest();
                 getTargetFragment().onActivityResult(getTargetRequestCode(), 1, getActivity().getIntent());
                 dismiss();
+
             }
         });
 
