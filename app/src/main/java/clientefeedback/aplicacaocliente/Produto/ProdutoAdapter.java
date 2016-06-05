@@ -87,11 +87,14 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
         }
         holder.preco.setText("R$" + String.format("%.2f", mList.get(position).getPreco().floatValue()));
         String url;
-        url = Url.URL_IMAGEM + "/images/sem_imagem.jpg";
-        url = Url.URL_IMAGEM + mList.get(position).getImagemPerfil().getCaminho();
+
+
 
 
         ImageView iv = holder.ivProduto;
+        url = Url.URL_IMAGEM + "/images/sem_imagem.jpg";
+        imageLoader.displayImage(url, iv);
+        url = Url.URL_IMAGEM + mList.get(position).getImagemPerfil().getCaminho();
         imageLoader.displayImage(url, iv);
 
         this.id = mList.get(position).getProdutoid();

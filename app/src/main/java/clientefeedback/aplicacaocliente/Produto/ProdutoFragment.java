@@ -186,14 +186,16 @@ public class ProdutoFragment extends Fragment implements RecyclerViewOnClickList
         List<Produto> lista = new ArrayList<>();
         int size = empresa.getProdutos().size();
         int n = bundle.getInt("categoria");
+        int pegos = 0;
 
-        for(int i=0; i < qtd; i++) {
-            if(pos < size){
+        for(int i=0; i < size; i++) {
+            if(pegos < size && pos < size){
                 if(empresa.getProdutos().get(pos).getCategoria() == n) {
                     lista.add(empresa.getProdutos().get(pos));
+                    pegos++;
                 }
             }else{
-                i = qtd+1;
+                i = size+1;
             }
             pos++;
         }
