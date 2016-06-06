@@ -90,6 +90,7 @@ public class CadastrarEmpresaActivity extends AppCompatActivity {
     private RequestQueue rq;
     private Resources resources;
     private static final Object TAG = new Object();
+    private ProgressBar pb_cd_empresa;
     Gson gson;
     Imagem img = new Imagem();
     Empresa emp;
@@ -119,6 +120,7 @@ public class CadastrarEmpresaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastrar_empresa);
 
+        pb_cd_empresa = (ProgressBar) findViewById(R.id.pb_cd_empresa);
         rq = Volley.newRequestQueue(CadastrarEmpresaActivity.this);
         gson = new Gson();
         emp = new Empresa();
@@ -171,6 +173,8 @@ public class CadastrarEmpresaActivity extends AppCompatActivity {
                     case R.id.action_save:
 
                         if( validateFields() ) {
+                            // tem q ser chamado fora da thread
+                            pb_cd_empresa.setVisibility(View.VISIBLE);
 
                             new Thread() {
                                 public void run() {
@@ -257,7 +261,14 @@ public class CadastrarEmpresaActivity extends AppCompatActivity {
                             int permissionCheck = ContextCompat.checkSelfPermission(CadastrarEmpresaActivity.this,
                                     Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
-                            if (permissionCheck!= PackageManager.PERMISSION_GRANTED) {
+                            if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                                values = new ContentValues();
+                                imageUri = getContentResolver().insert(
+                                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                                startActivityForResult(intent, REQUEST_CAMERA);
+                            } else {
 
                                 // Should we show an explanation?
                                 if (ActivityCompat.shouldShowRequestPermissionRationale(CadastrarEmpresaActivity.this,
@@ -280,14 +291,6 @@ public class CadastrarEmpresaActivity extends AppCompatActivity {
                                     // result of the request.
                                 }
                             }
-
-                            values = new ContentValues();
-                            imageUri = getContentResolver().insert(
-                                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                            startActivityForResult(intent, REQUEST_CAMERA);
-
                         } else if (items[item].equals(img_lib)) {
                             Intent intent = new Intent(
                                     Intent.ACTION_PICK,
@@ -543,16 +546,22 @@ public class CadastrarEmpresaActivity extends AppCompatActivity {
                 url,
                 new Response.Listener<String>() {
                     public void onResponse(String result) {
+                        pb_cd_empresa.setVisibility(View.GONE);
                         Toast.makeText(CadastrarEmpresaActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
+
+                        Intent it = new Intent(CadastrarEmpresaActivity.this, MainActivity.class);
+                        startActivity(it);
                     }
                 },
                 new Response.ErrorListener() {
                     public void onErrorResponse(VolleyError error) {
                         if (error.networkResponse != null) {
                             if (error.networkResponse.statusCode == 401) {
+                                pb_cd_empresa.setVisibility(View.GONE);
                                 Toast.makeText(CadastrarEmpresaActivity.this, "Não autorizado", Toast.LENGTH_SHORT).show();
                             }
                         }else {
+                            pb_cd_empresa.setVisibility(View.GONE);
                             Toast.makeText(CadastrarEmpresaActivity.this, "Erro de conexao", Toast.LENGTH_SHORT).show();
                         }
                     }

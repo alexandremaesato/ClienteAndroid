@@ -24,4 +24,11 @@
 
     <include layout="@layout/content_cadastrar_empresa" />
 
+    <ProgressBar
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:id="@+id/pb_cd_empresa"
+        android:layout_width="80dp"
+        android:layout_height="80dp" />
+
 </android.support.design.widget.CoordinatorLayout>

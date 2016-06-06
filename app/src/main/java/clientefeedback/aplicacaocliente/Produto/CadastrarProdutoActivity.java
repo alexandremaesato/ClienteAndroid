@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -61,6 +62,7 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
     private Resources resources;
     private static final Object TAG = new Object();
     private RequestQueue rq;
+    private ProgressBar pb_cd_produto;
     Gson gson;
     Imagem img = new Imagem();
     Produto prod;
@@ -75,11 +77,13 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
     ImageView ivImage;
     Integer idEmpresa;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastrar_produto);
 
+        pb_cd_produto = (ProgressBar) findViewById(R.id.pb_cd_produto);
         rq = Volley.newRequestQueue(CadastrarProdutoActivity.this);
         gson = new Gson();
         prod = new Produto();
@@ -105,11 +109,13 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
         preco     = (EditText)findViewById(R.id.editTextPreco);
 
         categoria = (Spinner) findViewById(R.id.spcategoria);
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this,   android.R.layout.simple_spinner_item, Produto.CATEGORIAS);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, Produto.CATEGORIAS);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
         categoria.setAdapter(spinnerArrayAdapter);
         culinaria = (Spinner) findViewById(R.id.spculinaria);
         ivImage   = (ImageView) findViewById(R.id.ivImage);
+
+
 
         assert cptoolbar != null;
         cptoolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -120,6 +126,9 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
                     case R.id.action_save:
 
                         if(validateFields()){
+                            // tem q ser chamado fora da thread
+                            pb_cd_produto.setVisibility(View.VISIBLE);
+
                             new Thread() {
                                 public void run() {
                                     prod.setNomeProduto(nome.getText().toString());
@@ -162,7 +171,15 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
                             int permissionCheck = ContextCompat.checkSelfPermission(CadastrarProdutoActivity.this,
                                     Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
-                            if (permissionCheck!= PackageManager.PERMISSION_GRANTED) {
+                            if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                                values = new ContentValues();
+                                imageUri = getContentResolver().insert(
+                                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                                startActivityForResult(intent, REQUEST_CAMERA);
+
+                            } else {
 
                                 if (ActivityCompat.shouldShowRequestPermissionRationale(CadastrarProdutoActivity.this,
                                         Manifest.permission.READ_CONTACTS)) {
@@ -171,14 +188,6 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
                                             new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                                 }
                             }
-
-                            values = new ContentValues();
-                            imageUri = getContentResolver().insert(
-                                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                            startActivityForResult(intent, REQUEST_CAMERA);
-
                         } else if (items[item].equals(img_lib)) {
                             Intent intent = new Intent(
                                     Intent.ACTION_PICK,
@@ -194,7 +203,6 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
                 builder.show();
             }
         });
-
     }
 
     private boolean validateFields() {
@@ -319,6 +327,8 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
                 url,
                 new Response.Listener<String>() {
                     public void onResponse(String result) {
+                        pb_cd_produto.setVisibility(View.GONE);
+                        finish();
                         Toast.makeText(CadastrarProdutoActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
                     }
                 },
@@ -326,9 +336,13 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         if (error.networkResponse != null) {
                             if (error.networkResponse.statusCode == 401) {
+                                pb_cd_produto.setVisibility(View.GONE);
+                                finish();
                                 Toast.makeText(CadastrarProdutoActivity.this, R.string.nao_autorizado, Toast.LENGTH_SHORT).show();
                             }
                         }else {
+                            pb_cd_produto.setVisibility(View.GONE);
+                            finish();
                             Toast.makeText(CadastrarProdutoActivity.this, R.string.erro_conexao, Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -339,10 +353,7 @@ public class CadastrarProdutoActivity extends AppCompatActivity {
                 return params;
             }
         };
-
         jsonRequest.setTag(TAG);
-
         rq.add(jsonRequest);
-
     }
 }

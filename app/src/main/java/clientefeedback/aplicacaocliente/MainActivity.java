@@ -146,9 +146,6 @@ public class MainActivity extends AppCompatActivity
             mFragment = new PrincipalEmpresaFragment();
 
         } else if (id == R.id.nav_send) {
-            Intent it = new Intent(this, CadastrarProdutoActivity.class);
-            startActivity(it);
-
         } else if (id == R.id.nav_busca) {
             mFragment = new BuscaFragment(mFragmentManager);
         }
