@@ -306,7 +306,7 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
         filtro.setBairro(sharedPreferences.getString("bairro", ""));
         filtro.setValorMinimo(String.valueOf(sharedPreferences.getInt("valorMinimo", 0)));
         filtro.setValorMaximo(String.valueOf(sharedPreferences.getInt("valorMaximo", 500)));
-        filtro.setOrdecacao(sharedPreferences.getString("ordenacao", ""));
+        filtro.setOrdenacao(sharedPreferences.getString("ordenacao", ""));
         lista.put("filtro", gson.toJson(filtro));
         return lista;
     }

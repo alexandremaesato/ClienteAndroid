@@ -11,7 +11,7 @@ public class Filtro {
     private String bairro;
     private String valorMinimo;
     private String valorMaximo;
-    private String ordecacao;
+    private String ordenacao;
 
     final String NOME = "nome";
     final String MENOR_VALOR = "Menor Valor";
@@ -69,11 +69,11 @@ public class Filtro {
         this.valorMaximo = valorMaximo;
     }
 
-    public String getOrdecacao() {
-        return ordecacao;
+    public String getOrdenacao() {
+        return ordenacao;
     }
 
-    public void setOrdecacao(String ordecacao) {
-        this.ordecacao = ordecacao;
+    public void setOrdenacao(String ordecacao) {
+        this.ordenacao = ordecacao;
     }
 }
