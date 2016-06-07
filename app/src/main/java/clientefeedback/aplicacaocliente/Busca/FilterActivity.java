@@ -63,6 +63,7 @@ public class FilterActivity extends AppCompatActivity {
     RequestQueue mQueue;
     List listaCidades;
     List listaBairros;
+    Button btnFiltrar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,7 @@ public class FilterActivity extends AppCompatActivity {
         listaBairros = new ArrayList<String>();
         progressBar = (ProgressBar)findViewById(R.id.progressBarFilter);
         progressBar.setVisibility(View.GONE);
+
         carregarSharedPreferences();
 
         spinnerOrdenacao = (Spinner) findViewById(R.id.spinnerOrdenacao);
@@ -153,7 +155,8 @@ public class FilterActivity extends AppCompatActivity {
         spinnerCidades.setSelection(sharedCidade.intValue());
 
 
-        Button btnFiltrar = (Button)findViewById(R.id.btnFiltrar);
+        btnFiltrar = (Button)findViewById(R.id.btnFiltrar);
+        btnFiltrar.setEnabled(true);
         btnFiltrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -174,13 +177,16 @@ public class FilterActivity extends AppCompatActivity {
 
     public void carregarCidadesNoSpinner(String estado){
         progressBar.setVisibility(View.VISIBLE);
+        btnFiltrar.setEnabled(false);
         adapterCidades.clear();
         adapterCidades.add("Todos");
+        adapterBairros.add("Todos");
         requestCidades(estado);
     }
 
     public void carregarBairrosNoSpinner(String cidade){
         progressBar.setVisibility(View.VISIBLE);
+        btnFiltrar.setEnabled(false);
         adapterBairros.clear();
         adapterBairros.add("Todos");
         requestBairros(cidade);
@@ -223,6 +229,7 @@ public class FilterActivity extends AppCompatActivity {
 
         editor.putInt("valorMaximo", rangeSeekBar.getSelectedMaxValue());
 
+
 //        editor.putInt("comentadosId", rgComentados.getCheckedRadioButtonId());
 //        editor.putString("comentados", rgComentados.);
 //
@@ -251,6 +258,7 @@ public class FilterActivity extends AppCompatActivity {
 
                     public void onResponse(String result) {
                         progressBar.setVisibility(View.GONE);
+                        btnFiltrar.setEnabled(true);
 
                         try {
                             listaCidades = jsonStringToArray(result);
@@ -263,6 +271,7 @@ public class FilterActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             public void onErrorResponse(VolleyError error) {
                 progressBar.setVisibility(View.GONE);
+                btnFiltrar.setEnabled(true);
                 if (error.networkResponse != null) {
                     if (error.networkResponse.statusCode == 401) {
                         Toast.makeText(getApplicationContext(), "Senha ou Usuário incorreto", Toast.LENGTH_SHORT).show();
@@ -279,12 +288,12 @@ public class FilterActivity extends AppCompatActivity {
     public void requestBairros(String cidade){
         String url = Url.getUrl() + "Endereco/getBairros/" + cidade;
 
-
         final StringRequest jsonRequest = new AutorizacaoRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
 
                     public void onResponse(String result) {
                         progressBar.setVisibility(View.GONE);
+                        btnFiltrar.setEnabled(true);
 
                         try {
                             listaBairros = jsonStringToArray(result);
@@ -297,6 +306,7 @@ public class FilterActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             public void onErrorResponse(VolleyError error) {
                 progressBar.setVisibility(View.GONE);
+                btnFiltrar.setEnabled(true);
                 if (error.networkResponse != null) {
                     if (error.networkResponse.statusCode == 401) {
                         Toast.makeText(getApplicationContext(), "Senha ou Usuário incorreto", Toast.LENGTH_SHORT).show();

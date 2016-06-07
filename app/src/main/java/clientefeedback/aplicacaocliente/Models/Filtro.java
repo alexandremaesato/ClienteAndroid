@@ -4,6 +4,15 @@ package clientefeedback.aplicacaocliente.Models;
  * Created by Alexandre on 24/04/2016.
  */
 public class Filtro {
+    private String nomeempresa;
+
+    public String getNomeempresa() {
+        return nomeempresa;
+    }
+
+    public void setNomeempresa(String nomeempresa) {
+        this.nomeempresa = nomeempresa;
+    }
 
     private String culinaria;
     private String estado;
@@ -11,7 +20,7 @@ public class Filtro {
     private String bairro;
     private String valorMinimo;
     private String valorMaximo;
-    private String ordecacao;
+    private String ordenacao;
 
     final String NOME = "nome";
     final String MENOR_VALOR = "Menor Valor";
@@ -69,11 +78,11 @@ public class Filtro {
         this.valorMaximo = valorMaximo;
     }
 
-    public String getOrdecacao() {
-        return ordecacao;
+    public String getOrdenacao() {
+        return ordenacao;
     }
 
-    public void setOrdecacao(String ordecacao) {
-        this.ordecacao = ordecacao;
+    public void setOrdenacao(String ordecacao) {
+        this.ordenacao = ordecacao;
     }
 }
