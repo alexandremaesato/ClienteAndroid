@@ -11,10 +11,11 @@ public class SharedData {
     Context context;
     public SharedData(Context context) {
         this.context = context;
-        sharedPreferences = context.getSharedPreferences("account", Context.MODE_PRIVATE);
+        //sharedPreferences = context.getSharedPreferences("account", Context.MODE_PRIVATE);
     }
 
     public int getPessoaId(){
+        sharedPreferences = context.getSharedPreferences("account", Context.MODE_PRIVATE);
         return sharedPreferences.getInt(context.getString(R.string.id_pessoa), 0);
     }
 

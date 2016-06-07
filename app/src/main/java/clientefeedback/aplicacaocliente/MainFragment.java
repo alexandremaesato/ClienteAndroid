@@ -1,5 +1,6 @@
 package clientefeedback.aplicacaocliente;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -58,6 +59,7 @@ public class MainFragment extends Fragment implements RecyclerViewOnClickListene
     private boolean isLastItem;
     private View rootView;
     boolean boolLoadWifi = false;
+
 
     public static MainFragment newInstance(String text){
         MainFragment mFragment = new MainFragment();
@@ -171,7 +173,7 @@ public class MainFragment extends Fragment implements RecyclerViewOnClickListene
 
             case R.id.menu_search:
                 mSearchCheck = true;
-                Toast.makeText(getActivity(), "Busca" , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Busca" , Toast.LENGTH_SHORT).show();
                 break;
         }
         return true;
@@ -180,7 +182,7 @@ public class MainFragment extends Fragment implements RecyclerViewOnClickListene
     private SearchView.OnQueryTextListener onQuerySearchView = new SearchView.OnQueryTextListener() {
         @Override
         public boolean onQueryTextSubmit(String s) {
-            new BuscaRequest(getContext(), s);
+            new BuscaRequest(MainActivity.contextOfApplication, s);
             return false;
         }
 

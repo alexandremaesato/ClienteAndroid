@@ -54,6 +54,7 @@ import clientefeedback.aplicacaocliente.Services.ConnectionVerify;
 import clientefeedback.aplicacaocliente.Services.SnackMessage;
 import clientefeedback.aplicacaocliente.Services.SnackMessageInterface;
 import clientefeedback.aplicacaocliente.Services.Url;
+import clientefeedback.aplicacaocliente.SharedData;
 import clientefeedback.aplicacaocliente.Transaction;
 import clientefeedback.aplicacaocliente.VolleyConn;
 
@@ -66,11 +67,13 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
     private static final String TEXT_FRAGMENT = "Busca";
     private ProgressBar progressBar;
     List<Empresa> empresas= new ArrayList<Empresa>();
+    String stringBusca = "";
 
     BuscaEmpresaAdapter adapter;
     private RecyclerView mRecyclerView;
     private List<Empresa> mList;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private SharedData sharedData;
     int pos = 0;
 
 
@@ -116,11 +119,11 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
                 LinearLayoutManager llm = (LinearLayoutManager) mRecyclerView.getLayoutManager();
                 BuscaEmpresaAdapter adapter = (BuscaEmpresaAdapter) mRecyclerView.getAdapter();
 
-                if(mList.size() == llm.findLastCompletelyVisibleItemPosition() + 1){
+                if (mList.size() == llm.findLastCompletelyVisibleItemPosition() + 1) {
                     List<Empresa> listAux = getSetEmpresaList(5);
 
-                    for(int i = 0; i < listAux.size(); i++){
-                        adapter.addListItem( listAux.get(i), mList.size() );
+                    for (int i = 0; i < listAux.size(); i++) {
+                        adapter.addListItem(listAux.get(i), mList.size());
                     }
                 }
 
@@ -225,7 +228,7 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
 
             case R.id.menu_search:
                 mSearchCheck = true;
-                Toast.makeText(getActivity(), "Busca" , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Busca" , Toast.LENGTH_SHORT).show();
                 break;
         }
         return true;
@@ -234,6 +237,9 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
     private SearchView.OnQueryTextListener onQuerySearchView = new SearchView.OnQueryTextListener() {
         @Override
         public boolean onQueryTextSubmit(String s) {
+            sharedData = new SharedData(getContext());
+            sharedData.setSearch(s);
+            executeSearch();
             return false;
         }
 
@@ -263,7 +269,7 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
             empresas = gson.fromJson(empresasJson.toString(),  new TypeToken<ArrayList<Empresa>>() {
             }.getType());
 
-            if (empresas.size() > 0) {
+            if (empresas.size() > -1) {
                 pos = 0;
                 LinearLayoutManager llm = new LinearLayoutManager(getActivity());
                 llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -274,6 +280,7 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
                 mRecyclerView.setAdapter(adapter);
 
             }else{
+
 
 
             }
@@ -293,13 +300,13 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
     }
 
     public Map<String,String> getParams() {
-
         SharedPreferences sharedPreferences;
         sharedPreferences = getContext().getSharedPreferences("filtro", Context.MODE_PRIVATE);
         Filtro filtro = new Filtro();
         Gson gson = new Gson();
         Map<String,String> lista = new HashMap<String,String>();
-
+        sharedData = new SharedData(getContext());
+        filtro.setNomeempresa(sharedData.getSearch());
         filtro.setCulinaria(sharedPreferences.getString("culinaria", ""));
         filtro.setEstado(sharedPreferences.getString("estado", ""));
         filtro.setCidade(sharedPreferences.getString("cidade", ""));
@@ -341,6 +348,10 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
     public void executeAfterMessage() {
         (new VolleyConn(getContext(), this)).execute();
 
+    }
+
+    private void executeSearch(){
+        (new VolleyConn(getContext(), this)).execute();
     }
 
 

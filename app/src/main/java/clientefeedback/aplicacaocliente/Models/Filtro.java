@@ -4,6 +4,15 @@ package clientefeedback.aplicacaocliente.Models;
  * Created by Alexandre on 24/04/2016.
  */
 public class Filtro {
+    private String nomeempresa;
+
+    public String getNomeempresa() {
+        return nomeempresa;
+    }
+
+    public void setNomeempresa(String nomeempresa) {
+        this.nomeempresa = nomeempresa;
+    }
 
     private String culinaria;
     private String estado;
