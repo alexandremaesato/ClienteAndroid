@@ -3,6 +3,7 @@ package clientefeedback.aplicacaocliente.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +23,8 @@ public class Avaliacao implements Parcelable {
     private int nota;
     private String descricao;
     private String tipoAvalicao;
+    private Date data_criacao;
+    private Date data_modificacao;
 
     public Avaliacao(){
 
@@ -34,6 +37,8 @@ public class Avaliacao implements Parcelable {
         nota = in.readInt();
         descricao = in.readString();
         tipoAvalicao = in.readString();
+        data_criacao = (Date)in.readValue(Date.class.getClassLoader());
+        data_modificacao = (Date)in.readValue(Date.class.getClassLoader());
     }
 
     public static final Creator<Avaliacao> CREATOR = new Creator<Avaliacao>() {
@@ -47,6 +52,22 @@ public class Avaliacao implements Parcelable {
             return new Avaliacao[size];
         }
     };
+
+    public Date getData_criacao() {
+        return data_criacao;
+    }
+
+    public void setData_criacao(Date data_criacao) {
+        this.data_criacao = data_criacao;
+    }
+
+    public Date getData_modificacao() {
+        return data_modificacao;
+    }
+
+    public void setData_modificacao(Date data_modificacao) {
+        this.data_modificacao = data_modificacao;
+    }
 
     public int getAvaliacaoid() {
         return avaliacaoid;
@@ -109,6 +130,8 @@ public class Avaliacao implements Parcelable {
         parcel.writeInt(nota);
         parcel.writeString(descricao);
         parcel.writeString(tipoAvalicao);
+        parcel.writeValue(data_criacao);
+        parcel.writeValue(data_modificacao);
     }
 }
 

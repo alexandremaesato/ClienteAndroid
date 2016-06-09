@@ -47,6 +47,15 @@
                     android:layout_alignParentBottom="false"
                     android:layout_marginLeft="10dp" />
 
+                <ProgressBar
+                    style="?android:attr/progressBarStyle"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/progressBarGeral"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_centerInParent="true" />
+
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -239,7 +248,8 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="0dp">
+                    android:layout_margin="0dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -289,7 +299,8 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="0dp">
+                    android:layout_margin="0dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -414,11 +425,39 @@
                 android:visibility="gone"/>
 
 
+            <include
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/item_lista_comentarios"
+                android:layout_marginBottom="20dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Todos as avaliações"
+                    android:id="@+id/textView10"
+                    android:gravity="right"
+                    android:layout_marginRight="10dp" />
+            </LinearLayout>
+
+            <include
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/item_lista_avaliacoes" />
+
             <ListView
                 android:layout_width="fill_parent"
                 android:layout_height="500dp"
                 android:id="@+id/lvComentarios"
-                android:stackFromBottom="false" />
+                android:stackFromBottom="false"
+                android:visibility="gone" />
 
         </LinearLayout>
 

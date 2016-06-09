@@ -194,8 +194,7 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setQueryHint("Busca");
 
-        ((EditText) searchView.findViewById(R.id.search_src_text))
-                .setHintTextColor(getResources().getColor(R.color.colorPrimary));
+        ((EditText) searchView.findViewById(R.id.search_src_text)).setHintTextColor(getResources().getColor(R.color.colorPrimary));
         searchView.setOnQueryTextListener(onQuerySearchView);
 
         menu.findItem(R.id.menu_add).setVisible(true);
@@ -228,6 +227,7 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
 
             case R.id.menu_search:
                 mSearchCheck = true;
+
                 //Toast.makeText(getActivity(), "Busca" , Toast.LENGTH_SHORT).show();
                 break;
         }
@@ -262,6 +262,7 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
     @Override
     public void doAfter(String answer) {
         try{
+            System.out.println("============ RESULTADO DA BUSCA:=============="+ answer);
             JSONObject json = new JSONObject(answer);
             JSONArray empresasJson = json.getJSONArray("Empresas");
             Gson gson = new Gson();

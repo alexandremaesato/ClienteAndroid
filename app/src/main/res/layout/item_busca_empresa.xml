@@ -57,7 +57,7 @@
                 android:id="@+id/ratingBarBusca"
                 android:max="5"
                 android:rating="3"
-                style="?android:attr/ratingBarStyleSmall"
+                style="?android:attr/ratingBarStyleIndicator"
                 android:layout_alignBottom="@+id/iv_empresa"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"

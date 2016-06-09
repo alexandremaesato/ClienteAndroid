@@ -3,6 +3,8 @@ package clientefeedback.aplicacaocliente.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.sql.Date;
+
 /**
  * Created by Alexandre on 14/04/2016.
  */
@@ -10,6 +12,7 @@ public class Comentario implements Parcelable{
 
     public static String EMPRESA = "empresa";
 
+    private Pessoa pessoa;
     private int comentarioid;
     private String descricao;
     private int pessoaid;
@@ -17,6 +20,8 @@ public class Comentario implements Parcelable{
     private int comentadoid;
     private int modificado;
     private String tipoComentado;
+    private Date data_criacao;
+    private Date data_modificacao;
 
     public Comentario(){
 
@@ -30,6 +35,9 @@ public class Comentario implements Parcelable{
         comentadoid = in.readInt();
         modificado = in.readInt();
         tipoComentado = in.readString();
+        data_criacao = (Date)in.readValue(Date.class.getClassLoader());
+        data_modificacao = (Date)in.readValue(Date.class.getClassLoader());
+        pessoa = (Pessoa)in.readValue(Pessoa.class.getClassLoader());
     }
 
     public static final Creator<Comentario> CREATOR = new Creator<Comentario>() {
@@ -43,6 +51,30 @@ public class Comentario implements Parcelable{
             return new Comentario[size];
         }
     };
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
+    public Date getData_criacao() {
+        return data_criacao;
+    }
+
+    public void setData_criacao(Date data_criacao) {
+        this.data_criacao = data_criacao;
+    }
+
+    public Date getData_modificacao() {
+        return data_modificacao;
+    }
+
+    public void setData_modificacao(Date data_modificacao) {
+        this.data_modificacao = data_modificacao;
+    }
 
     public int getComentarioid() {
         return comentarioid;
@@ -114,5 +146,8 @@ public class Comentario implements Parcelable{
         parcel.writeInt(comentadoid);
         parcel.writeInt(modificado);
         parcel.writeString(tipoComentado);
+        parcel.writeValue(data_criacao);
+        parcel.writeValue(data_modificacao);
+        parcel.writeValue(pessoa);
     }
 }

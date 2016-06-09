@@ -28,6 +28,7 @@ public class Empresa implements Parcelable{
     private int avaliacaoNota;
     private int qtdeComentarios;
     private int qtdeAvaliacoes;
+    private Entidade entidade;
 
     public Empresa(){
 
@@ -49,6 +50,7 @@ public class Empresa implements Parcelable{
         avaliacaoNota = in.readInt();
         qtdeComentarios = in.readInt();
         qtdeAvaliacoes = in.readInt();
+        entidade = (Entidade) in.readValue(Entidade.class.getClassLoader());
     }
 
     public static final Creator<Empresa> CREATOR = new Creator<Empresa>() {
@@ -187,6 +189,14 @@ public class Empresa implements Parcelable{
         return produtos.isEmpty();
     }
 
+    public Entidade getEntidade() {
+        return entidade;
+    }
+
+    public void setEntidade(Entidade entidade) {
+        this.entidade = entidade;
+    }
+
     public boolean hasImagemPerfil() {
         if(imagemPerfil != null){
             return true;
@@ -239,5 +249,6 @@ public class Empresa implements Parcelable{
         parcel.writeInt(avaliacaoNota);
         parcel.writeInt(qtdeComentarios);
         parcel.writeInt(qtdeAvaliacoes);
+        parcel.writeValue(entidade);
     }
 }

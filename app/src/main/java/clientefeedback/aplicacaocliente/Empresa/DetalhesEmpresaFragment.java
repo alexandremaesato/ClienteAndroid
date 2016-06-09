@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import clientefeedback.aplicacaocliente.Avaliacao.AvaliacaoDialogFragment;
+import clientefeedback.aplicacaocliente.Avaliacao.AvaliacoesDetalhesRequest;
 import clientefeedback.aplicacaocliente.Avaliacao.RequestAvaliacao;
 import clientefeedback.aplicacaocliente.Comentario.ComentarioDetalhesRequest;
 import clientefeedback.aplicacaocliente.Comentario.ComentarioDialogFragment;
@@ -71,6 +72,7 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
     TextView telefone;
     TextView descricao;
     TextView adicionarProduto;
+    TextView souDono;
     ImageView imagemPerfil;
     Button avaliar;
     Button comentar;
@@ -79,6 +81,7 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
     ImageLoader imageLoader;
     SharedData sharedData;
     CoordinatorLayout coordinatorLayout;
+    boolean temDono;
 
     LinearLayout areaAvaliacao;
     ImageButton btnEditarAvaliacao;
@@ -102,6 +105,9 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
         if (bundle != null) {
             avaliacao = bundle.getParcelable("avaliacao");
             empresa = bundle.getParcelable("empresa");
+            if(empresa.getEntidade().getIdcriador()>0){
+                temDono = true;
+            }
 
         }
         createTabPagerItem();
@@ -119,6 +125,18 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
         rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
 
         coordinatorLayout = (CoordinatorLayout)rootView.findViewById(R.id.main_content);
+
+        souDono = (TextView)rootView.findViewById(R.id.tvSouDono);
+        souDono.setVisibility(View.GONE);
+        if(temDono){
+            souDono.setVisibility(View.VISIBLE);
+        }
+        souDono.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new SouDonoRequest(getContext(),empresa.getEmpresaId());
+            }
+        });
 
         nomeEmpresa = (TextView)rootView.findViewById(R.id.tvNome);
         nomeEmpresa.setText(empresa.getNomeEmpresa());
@@ -195,7 +213,7 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
             comentarioAvaliacao.setText(avaliacao.getDescricao());
         }
 
-        adicionarProduto = (TextView)rootView.findViewById(R.id.tvAdicionarProduto);
+        adicionarProduto = (TextView) rootView.findViewById(R.id.tvAdicionarProduto);
         adicionarProduto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -206,6 +224,11 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
                 startActivity(it);
             }
         });
+        if(!temDono) {
+            adicionarProduto.setVisibility(View.GONE);
+            adicionarProduto.setEnabled(false);
+        }
+
 
         rootView.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -299,6 +322,7 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
 
     public void loadComentarios(){
         ComentarioDetalhesRequest c = new ComentarioDetalhesRequest(getContext(), empresa.getEmpresaId());
+        AvaliacoesDetalhesRequest a = new AvaliacoesDetalhesRequest(getContext(), empresa.getEmpresaId());
     }
 
     private String mountStringAddress(){

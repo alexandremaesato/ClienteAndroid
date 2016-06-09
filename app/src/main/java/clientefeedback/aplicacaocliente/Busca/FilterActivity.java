@@ -200,8 +200,8 @@ public class FilterActivity extends AppCompatActivity {
         sharedEstado = sharedPreferences.getLong("estadoId", 0);
         sharedCidade = sharedPreferences.getLong("cidadeId",0);
         sharedBairro = sharedPreferences.getLong("bairroId",0);
-        sharedValorMinimo = sharedPreferences.getInt("valorMinimoId", 5);
-        sharedValorMaximo = sharedPreferences.getInt("valorMaximoId", 500);
+        sharedValorMinimo = sharedPreferences.getInt("valorMinimo", 5);
+        sharedValorMaximo = sharedPreferences.getInt("valorMaximo", 500);
         sharedComentados = sharedPreferences.getInt("comentadosId",0);
         sharedBuscados = sharedPreferences.getInt("buscadosId", 0);
     }

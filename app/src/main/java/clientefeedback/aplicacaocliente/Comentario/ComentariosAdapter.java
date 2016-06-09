@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
 import java.util.List;
 
 import clientefeedback.aplicacaocliente.Models.Comentario;
@@ -21,14 +22,14 @@ import clientefeedback.aplicacaocliente.R;
  */
 public class ComentariosAdapter extends BaseAdapter{
     List<Comentario> comentarioList;
-    List<Pessoa> pessoasList;
+//    List<Pessoa> pessoasList;
     List<Imagem> galeria;
     Context context;
     View view;
 
-    public ComentariosAdapter(Context c, List<Comentario> comentaiosList, List<Pessoa> pessoasList, List<Imagem> galeria){
+    public ComentariosAdapter(Context c, List<Comentario> comentaiosList, List<Imagem> galeria){
         this.comentarioList = comentaiosList;
-        this.pessoasList = pessoasList;
+//        this.pessoasList = pessoasList;
         this.galeria = galeria;
         this.context = c;
     }
@@ -55,16 +56,18 @@ public class ComentariosAdapter extends BaseAdapter{
 
         View layout = inflater.inflate(R.layout.item_comentario, null);
 
-        if(pessoasList.size()>i) {
-            Pessoa pessoa = pessoasList.get(i);
+        TextView nomePessoa = (TextView) layout.findViewById(R.id.tvNome);
+        nomePessoa.setText(comentario.getPessoa().getNome());
 
-            TextView nomePessoa = (TextView) layout.findViewById(R.id.tvNome);
-            nomePessoa.setText(pessoa.getNome());
+        if(!(comentario.getData_modificacao() == null)) {
+            TextView dataComentario = (TextView) layout.findViewById(R.id.tvData);
+            dataComentario.setText(comentario.getData_modificacao().toString());
         }
 
         TextView comentarioTexto = (TextView)layout.findViewById(R.id.tvComentario);
         comentarioTexto.setText(comentario.getDescricao());
 
+        /* ITENS PARA SEREM ADICIONADOS MAIS TARDE
         ImageView fotoPessoa = (ImageView)layout.findViewById(R.id.fotoPessoa);
 
         ImageButton iBtn1 = (ImageButton)layout.findViewById(R.id.iBtn1);
@@ -72,6 +75,7 @@ public class ComentariosAdapter extends BaseAdapter{
         ImageButton iBtn3 = (ImageButton)layout.findViewById(R.id.iBtn3);
         ImageButton iBtn4 = (ImageButton)layout.findViewById(R.id.iBtn4);
         layout.requestFocus(R.id.imagemPerfil);
+        */
         return layout;
     }
 }

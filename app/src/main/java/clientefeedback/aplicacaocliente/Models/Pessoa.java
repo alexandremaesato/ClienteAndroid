@@ -2,6 +2,8 @@ package clientefeedback.aplicacaocliente.Models;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.sql.Date;
 import java.util.List;
@@ -11,7 +13,7 @@ import clientefeedback.aplicacaocliente.R;
 /**
  * Created by Guilherme on 26/02/2016.
  */
-public class Pessoa {
+public class Pessoa implements Parcelable {
 
     private int pessoaid;
     private String login;
@@ -25,6 +27,30 @@ public class Pessoa {
     private int numeroDesejados;
     private List listaFavoritos;
     private List listaDesejos;
+
+    protected Pessoa(Parcel in) {
+        senha = in.readString();
+        cpf = in.readString();
+        nome = in.readString();
+        sobrenome = in.readString();
+        Date dataNascimento;
+        imagemPerfil = in.readInt();
+        numeroFavoritados  = in.readInt();
+        numeroDesejados  = in.readInt();
+    }
+
+    public static final Parcelable.Creator<Pessoa> CREATOR = new Parcelable.Creator<Pessoa>() {
+        @Override
+        public Pessoa createFromParcel(Parcel in) {
+            return new Pessoa(in);
+        }
+
+        @Override
+        public Pessoa[] newArray(int size) {
+            return new Pessoa[size];
+        }
+    };
+
 
     public int getPessoaid() {
         return pessoaid;
@@ -125,5 +151,24 @@ public class Pessoa {
     public static String getLoginFromSharedPreferences(Context c){
         SharedPreferences s = c.getSharedPreferences("account", Context.MODE_PRIVATE);
         return s.getString(c.getString(R.string.login),"");
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(pessoaid);
+        parcel.writeString(login);
+        parcel.writeString(senha);
+        parcel.writeString(cpf);
+        parcel.writeString(nome);
+        parcel.writeString(sobrenome);
+        parcel.writeValue(dataNascimento);
+        parcel.writeInt(imagemPerfil);
+        parcel.writeInt(numeroFavoritados);
+        parcel.writeInt(numeroDesejados);
     }
 }
