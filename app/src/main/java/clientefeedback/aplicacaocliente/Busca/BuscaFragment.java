@@ -282,8 +282,6 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
 
             }else{
 
-
-
             }
         }
         catch(Exception e){

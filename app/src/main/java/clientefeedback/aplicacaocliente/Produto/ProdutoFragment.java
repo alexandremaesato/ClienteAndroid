@@ -204,8 +204,12 @@ public class ProdutoFragment extends Fragment implements RecyclerViewOnClickList
 
     @Override
     public void onClickListener(View view, int position) {
-        Toast.makeText(getActivity(), "Position: "+position, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "Position: "+position, Toast.LENGTH_SHORT).show();
+        bundle.putInt("idProduto", mList.get(position).getProdutoid());
         ProdutoAdapter adapter = (ProdutoAdapter) mRecyclerView.getAdapter();
+        Intent it = new Intent(getContext(),ProdutoDetalhes.class);
+        it.putExtra("idProduto", mList.get(position).getProdutoid());
+        startActivity(it);
         //adapter.removeListItem(position);
     }
 
@@ -235,9 +239,6 @@ public class ProdutoFragment extends Fragment implements RecyclerViewOnClickList
     @Override
     public void doBefore() {
         ft = getFragmentManager().beginTransaction();
-
-
-
     }
 
     @Override
@@ -274,6 +275,9 @@ public class ProdutoFragment extends Fragment implements RecyclerViewOnClickList
          avaliacao.setPessoaid(sd.getPessoaId());
          avaliacao.setAvaliadoid(idProdutoAvaliacao);
          avaliacao.setTipoAvalicao(Avaliacao.PRODUTO);
+
      }
+
+
 }
 

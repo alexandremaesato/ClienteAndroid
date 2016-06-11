@@ -131,18 +131,30 @@
 
     <!-- Culinaria -->
     <string-array name="tipo_cozinhas">
-        <item>Árabe</item>      <!-- 1 -->
-        <item>Americana</item>  <!-- 2 -->
-        <item>Brasileira</item> <!-- 3 -->
-        <item>Européia</item>   <!-- 4 -->
-        <item>Italiana</item>   <!-- 5 -->
-        <item>Japonesa</item>   <!-- 6 -->
-        <item>Africana</item>   <!-- 7 -->
-        <item>Mexicana</item>   <!-- 8 -->
-        <item>Judáica</item>    <!-- 9 -->
-        <item>Tailandesa</item> <!-- 10 -->
-        <item>Chinesa</item>    <!-- 11 -->
-        <item>Francesa</item>    <!-- 12 -->
+        <item>Árabe</item>
+        <!-- 1 -->
+        <item>Americana</item>
+        <!-- 2 -->
+        <item>Brasileira</item>
+        <!-- 3 -->
+        <item>Européia</item>
+        <!-- 4 -->
+        <item>Italiana</item>
+        <!-- 5 -->
+        <item>Japonesa</item>
+        <!-- 6 -->
+        <item>Africana</item>
+        <!-- 7 -->
+        <item>Mexicana</item>
+        <!-- 8 -->
+        <item>Judáica</item>
+        <!-- 9 -->
+        <item>Tailandesa</item>
+        <!-- 10 -->
+        <item>Chinesa</item>
+        <!-- 11 -->
+        <item>Francesa</item>
+        <!-- 12 -->
     </string-array>
 
     <!-- Categoria -->

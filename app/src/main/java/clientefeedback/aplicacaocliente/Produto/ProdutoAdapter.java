@@ -82,30 +82,37 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.tvNome.setText(mList.get(position).getNomeProduto());
         holder.tvDescricao.setText(mList.get(position).getDescricao());
+        if(mList.get(position).getQtdeAvaliacoes() > 0 ) {
+            holder.avaliacoes.setText(String.valueOf(mList.get(position).getQtdeAvaliacoes()));
+        }
         if(mList.get(position).getAvaliacaoGeral()>0) {
-            holder.ratingBar.setRating(mList.get(position).getAvaliacaoGeral());
+            Integer nota = mList.get(position).getAvaliacaoGeral();
+            Float notaFloat = nota.floatValue();
+            notaFloat = (notaFloat/10)/2;
+            holder.ratingBar.setRating(notaFloat);
         }
         holder.preco.setText("R$" + String.format("%.2f", mList.get(position).getPreco().floatValue()));
         String url;
-
-
-
-
         ImageView iv = holder.ivProduto;
         url = Url.URL_IMAGEM + "/images/sem_imagem.jpg";
         imageLoader.displayImage(url, iv);
         url = Url.URL_IMAGEM + mList.get(position).getImagemPerfil().getCaminho();
         imageLoader.displayImage(url, iv);
 
+
         this.id = mList.get(position).getProdutoid();
         holder.avaliar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(mContext, String.valueOf(mList.get(position).getProdutoid()), Toast.LENGTH_SHORT).show();
                 listener.onItemClicked(view, mList.get(position).getProdutoid());
+                change();
+
             }
         });
 
+    }
+    public void change(){
+        notifyDataSetChanged();
     }
 
     @Override
@@ -134,6 +141,7 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
         public RatingBar ratingBar;
         public TextView preco;
         public Button avaliar;
+        public TextView avaliacoes;
 
 
         public MyViewHolder(View itemView) {
@@ -146,6 +154,7 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
             ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
             preco = (TextView) itemView.findViewById(R.id.preco);
             avaliar = (Button) itemView.findViewById(R.id.btnAvaliarProduto);
+            avaliacoes = (TextView) itemView.findViewById(R.id.tvQtdAvaliacoes);
 
 
 

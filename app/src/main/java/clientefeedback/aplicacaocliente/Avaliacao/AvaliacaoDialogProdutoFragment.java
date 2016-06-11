@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.google.gson.Gson;
 
 import java.util.HashMap;
 
+import clientefeedback.aplicacaocliente.Interfaces.CallBack;
 import clientefeedback.aplicacaocliente.Models.Avaliacao;
 import clientefeedback.aplicacaocliente.R;
 import clientefeedback.aplicacaocliente.RequestData;
@@ -26,13 +28,14 @@ import clientefeedback.aplicacaocliente.Transaction;
 import clientefeedback.aplicacaocliente.VolleyConn;
 
 /**
- * Created by Alexandre on 18/05/2016.
+ * Created by Alexandre on 11/06/2016.
  */
-public class AvaliacaoDialogFragment extends DialogFragment implements Transaction{
+public class AvaliacaoDialogProdutoFragment extends DialogFragment implements Transaction{
     ProgressBar progressBar;
     Avaliacao avaliacao;
     RatingBar ratingBar;
     EditText editTextComentario;
+    CallBack callBack;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -53,12 +56,11 @@ public class AvaliacaoDialogFragment extends DialogFragment implements Transacti
         progressBar.setVisibility(View.GONE);
 
         ratingBar = (RatingBar) view.findViewById(R.id.ratingBarDialog);
-        if(avaliacao.getNota()!= 0) {
-            Integer notaInt = avaliacao.getNota();
-            Float notaFloat = notaInt.floatValue();
-            notaFloat = (notaFloat / 10) / 2;
-            ratingBar.setRating(notaFloat);
-        }
+        Integer notaInt = avaliacao.getNota();
+        Float notaFloat = notaInt.floatValue();
+        notaFloat = (notaFloat/10)/2;
+        ratingBar.setRating(notaFloat);
+
 
         editTextComentario = (EditText)view.findViewById(R.id.etComentario);
         editTextComentario.setText(avaliacao.getDescricao());
@@ -68,12 +70,13 @@ public class AvaliacaoDialogFragment extends DialogFragment implements Transacti
             @Override
             public void onClick(View v) {
                 doRequest();
-                getTargetFragment().onActivityResult(getTargetRequestCode(), 1, getActivity().getIntent());
+               // getTargetFragment().onActivityResult(getTargetRequestCode(), 1, getActivity().getIntent());
+                //getActivity().setResult(1);
+                callBack.executeThis();
                 dismiss();
 
             }
         });
-
         return(view);
     }
 
@@ -126,4 +129,9 @@ public class AvaliacaoDialogFragment extends DialogFragment implements Transacti
         params.put("avaliacao", gson.toJson(avaliacao));
         return( new RequestData(Url.getUrl()+"avaliacao/setAvaliacao", "", params) );
     }
+
+    public void setCallBack(CallBack c){
+        this.callBack = c;
+    }
+
 }
