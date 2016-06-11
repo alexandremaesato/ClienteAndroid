@@ -27,7 +27,12 @@ import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,6 +42,7 @@ import clientefeedback.aplicacaocliente.Avaliacao.RequestAvaliacao;
 import clientefeedback.aplicacaocliente.Interfaces.CallBack;
 import clientefeedback.aplicacaocliente.Models.Avaliacao;
 import clientefeedback.aplicacaocliente.Models.Comentario;
+import clientefeedback.aplicacaocliente.Models.Pessoa;
 import clientefeedback.aplicacaocliente.Models.Produto;
 import clientefeedback.aplicacaocliente.R;
 import clientefeedback.aplicacaocliente.RequestData;
@@ -53,6 +59,7 @@ public class ProdutoDetalhes extends AppCompatActivity implements Transaction, C
     TextView descricao;
     TextView tvNomeProduto;
     Produto produto;
+    List<Pessoa> pessoas;
     ListView listView;
     private float scale;
     private int width;
@@ -89,11 +96,18 @@ public class ProdutoDetalhes extends AppCompatActivity implements Transaction, C
     public void doAfter(String answer) {
         progressBar.setVisibility(View.GONE);
 
+        JSONObject json = null;
         try{
             Gson gson = new Gson();
-            produto = (Produto)gson.fromJson(answer, Produto.class);
+            json = new JSONObject(answer);
+            JSONObject produtoJson = (JSONObject) json.get("produto");
+            JSONArray pessoasJson = json.getJSONArray("pessoas");
+            pessoas = gson.fromJson(pessoasJson.toString(),  new TypeToken<ArrayList<Pessoa>>() {}.getType());
+            produto = (Produto)gson.fromJson(produtoJson.toString(), Produto.class);
             loadView();
         }catch (Exception e){
+            Toast.makeText(getBaseContext(), "Não foi possível recuperar as informações", Toast.LENGTH_SHORT).show();
+            finish();
 
         }
 
@@ -121,7 +135,7 @@ public class ProdutoDetalhes extends AppCompatActivity implements Transaction, C
     }
 
     public void loadView(){
-        listView.setAdapter(new ProdutoAvaliacoesAdapter(this, produto.getAvaliacoes()));
+        listView.setAdapter(new ProdutoAvaliacoesAdapter(this, produto.getAvaliacoes(), pessoas));
         tvNomeProduto.setText(produto.getNomeProduto());
         if(produto.getPreco()!=null) {
             preco.setText("R$" + String.format("%.2f", produto.getPreco().floatValue()));

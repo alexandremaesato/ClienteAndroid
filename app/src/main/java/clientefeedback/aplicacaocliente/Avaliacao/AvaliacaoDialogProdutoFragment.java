@@ -70,8 +70,6 @@ public class AvaliacaoDialogProdutoFragment extends DialogFragment implements Tr
             @Override
             public void onClick(View v) {
                 doRequest();
-               // getTargetFragment().onActivityResult(getTargetRequestCode(), 1, getActivity().getIntent());
-                //getActivity().setResult(1);
                 callBack.executeThis();
                 dismiss();
 
@@ -94,7 +92,6 @@ public class AvaliacaoDialogProdutoFragment extends DialogFragment implements Tr
         super.onAttach(activity);
         Log.i("Script", "onAttach()");
     }
-
 
     @Override
     public void onCancel(DialogInterface dialog){

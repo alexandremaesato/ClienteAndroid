@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import clientefeedback.aplicacaocliente.Models.Avaliacao;
+import clientefeedback.aplicacaocliente.Models.Pessoa;
 import clientefeedback.aplicacaocliente.R;
 
 /**
@@ -23,10 +24,12 @@ import clientefeedback.aplicacaocliente.R;
 public class ProdutoAvaliacoesAdapter extends BaseAdapter{
     Context context;
     List<Avaliacao> avaliacoes;
+    List<Pessoa> pessoas;
 
-    public ProdutoAvaliacoesAdapter(Context context, List<Avaliacao> avaliacoes){
+    public ProdutoAvaliacoesAdapter(Context context, List<Avaliacao> avaliacoes, List<Pessoa> pessoas){
         this.context = context;
         this.avaliacoes = avaliacoes;
+        this.pessoas = pessoas;
     }
 
 
@@ -53,6 +56,9 @@ public class ProdutoAvaliacoesAdapter extends BaseAdapter{
         View layout = layoutInflater.inflate(R.layout.item_avaliacao_produto, null);
 
         TextView nomePessoa = (TextView)layout.findViewById(R.id.tvNomePessoa);
+        if(pessoas.get(i).getNome() != null){
+            nomePessoa.setText(pessoas.get(i).getNome());
+        }
 
         TextView comentario = (TextView)layout.findViewById(R.id.tvComentarioProduto);
         comentario.setText(avaliacao.getDescricao());
