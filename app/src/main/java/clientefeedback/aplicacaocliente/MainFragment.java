@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,11 +35,14 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.nio.channels.OverlappingFileLockException;
 import java.util.ArrayList;
 import java.util.List;
 
 import clientefeedback.aplicacaocliente.Adapters.EmpresaAdapter;
+import clientefeedback.aplicacaocliente.Busca.BuscaEmpresaAdapter;
 import clientefeedback.aplicacaocliente.Busca.BuscaRequest;
+import clientefeedback.aplicacaocliente.Busca.CarregaEmpresaRequest;
 import clientefeedback.aplicacaocliente.Interfaces.RecyclerViewOnClickListenerHack;
 import clientefeedback.aplicacaocliente.Models.Empresa;
 import clientefeedback.aplicacaocliente.Services.AutorizacaoRequest;
@@ -59,6 +64,8 @@ public class MainFragment extends Fragment implements RecyclerViewOnClickListene
     private boolean isLastItem;
     private View rootView;
     boolean boolLoadWifi = false;
+    List<Empresa> empresas;
+    int next = 0;
 
 
     public static MainFragment newInstance(String text){
@@ -108,8 +115,16 @@ public class MainFragment extends Fragment implements RecyclerViewOnClickListene
         EmpresaAdapter adapter = new EmpresaAdapter(getActivity(), mList);
         adapter.setRecyclerViewOnClickListenerHack(this);
         mRecyclerView.setAdapter(adapter);
-
-        rootView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT ));
+        rootView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        rootView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                }
+                return false;
+            }
+        });
         return rootView;
     }
 
@@ -126,7 +141,9 @@ public class MainFragment extends Fragment implements RecyclerViewOnClickListene
     public void onStop() {
         super.onStop();
         callVolleyRequest();
+
     }
+
 
     public void callVolleyRequest(){
         execute();
@@ -168,7 +185,9 @@ public class MainFragment extends Fragment implements RecyclerViewOnClickListene
         switch (item.getItemId()) {
 
             case R.id.menu_add:
+                Toast.makeText(getActivity(), getFragmentManager().getFragments().get(0).toString(), Toast.LENGTH_SHORT).show();
                 Toast.makeText(getActivity(), "Add", Toast.LENGTH_SHORT).show();
+
                 break;
 
             case R.id.menu_search:
@@ -195,9 +214,11 @@ public class MainFragment extends Fragment implements RecyclerViewOnClickListene
         }
     };
 
-    @Override
+    @Override //CLICK NA EMPRESA
     public void onClickListener(View view, int position) {
-        Toast.makeText(getActivity(), "Position: "+position, Toast.LENGTH_SHORT).show();
+        EmpresaAdapter adapter = (EmpresaAdapter) mRecyclerView.getAdapter();
+        new CarregaEmpresaRequest(getContext(), getFragmentManager(), empresas.get(position).getEmpresaId());
+//        Toast.makeText(getActivity(), "Position: "+position, Toast.LENGTH_SHORT).show();
 //        EmpresaAdapter adapter = (EmpresaAdapter) mRecyclerView.getAdapter();
 //        adapter.removeListItem(position);
     }
@@ -207,7 +228,8 @@ public class MainFragment extends Fragment implements RecyclerViewOnClickListene
 
     public void execute(){
         final Empresa empresa = doBefore();
-        String url = Url.getUrl()+"Empresa/carregarEmpresas/"+empresa.getAvaliacaoNota();
+        String url = Url.getUrl()+"Empresa/carregarEmpresas/"+next;
+        next = next+10;
 
         StringRequest request = new AutorizacaoRequest(
                 Request.Method.GET,
@@ -279,7 +301,7 @@ public class MainFragment extends Fragment implements RecyclerViewOnClickListene
 
             try{
                 Type type = new TypeToken<List<Empresa>>(){}.getType();
-                List<Empresa> empresas = gson.fromJson(json, type);
+                empresas = gson.fromJson(json, type);
                 for(int i = 0, tamI = empresas.size(); i < tamI; i++){
                     Empresa empresa = empresas.get(i);
                     position = mList.size();

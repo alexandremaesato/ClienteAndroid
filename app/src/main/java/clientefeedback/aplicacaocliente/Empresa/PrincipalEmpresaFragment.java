@@ -69,6 +69,7 @@ public class PrincipalEmpresaFragment extends Fragment{
             empresa = bundle.getParcelable("empresa");
         }
         createTabPagerItem();
+
     }
 
     private void createTabPagerItem(){

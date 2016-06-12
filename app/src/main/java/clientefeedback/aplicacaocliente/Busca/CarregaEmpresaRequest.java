@@ -1,5 +1,6 @@
 package clientefeedback.aplicacaocliente.Busca;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,7 +29,7 @@ import clientefeedback.aplicacaocliente.VolleyConn;
  */
 public class CarregaEmpresaRequest implements Transaction{
     FragmentManager fragmentManager;
-    View v;
+
     Context c;
     ProgressBar progressBar;
     Empresa empresa;
@@ -42,14 +43,15 @@ public class CarregaEmpresaRequest implements Transaction{
 
     Fragment mFragment = new PrincipalEmpresaFragment();
 
-    public CarregaEmpresaRequest(View v,Context c, FragmentManager fm, Integer idEmpresa){
+    public CarregaEmpresaRequest(Context c, FragmentManager fm, Integer idEmpresa){
         this.fragmentManager = fm;
-        this.v = v;
+
         this.c = c;
         this.idEmpresa = idEmpresa;
-        this.progressBar = (ProgressBar)v.findViewById(R.id.pbProxy);
+        this.progressBar = (ProgressBar)((Activity)c).getWindow().getDecorView().findViewById(R.id.pb_load);
         SharedData sd= new SharedData(c);
         this.idPessoa = sd.getPessoaId();
+
         (new PrincipalEmpresaRequest(c, this)).execute();
 
     }
@@ -57,7 +59,7 @@ public class CarregaEmpresaRequest implements Transaction{
 
     @Override
     public void doBefore() {
-        progressBar.setVisibility(View.VISIBLE);
+      progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override

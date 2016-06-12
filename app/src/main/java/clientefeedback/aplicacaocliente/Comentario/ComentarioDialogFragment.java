@@ -62,7 +62,9 @@ public class ComentarioDialogFragment extends DialogFragment implements Transact
         btnEnviarComentario.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getTargetFragment().onActivityResult(getTargetRequestCode(), 0, getActivity().getIntent());
                 doRequest();
+
                 //getTargetFragment().onActivityResult(getTargetRequestCode(), 1, getActivity().getIntent());
                 //dismiss();
             }

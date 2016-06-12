@@ -197,6 +197,14 @@ public class Empresa implements Parcelable{
         this.entidade = entidade;
     }
 
+    public float getNotaStars(){
+//        Integer nota = this.avaliacaoNota;
+//        Float notaFloat = nota.floatValue();
+        return new Float(new Integer(avaliacaoNota).floatValue())/20;
+        //return (notaFloat/10)/2;
+
+    }
+
     public boolean hasImagemPerfil() {
         if(imagemPerfil != null){
             return true;

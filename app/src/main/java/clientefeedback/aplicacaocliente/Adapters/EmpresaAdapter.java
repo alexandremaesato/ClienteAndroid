@@ -69,7 +69,7 @@ public class EmpresaAdapter extends RecyclerView.Adapter<EmpresaAdapter.MyViewHo
         holder.tvNome.setText(mList.get(position).getNomeEmpresa());
         String local = mList.get(position).getEndereco().getCidade() + "/" + mList.get(position).getEndereco().getEstado();
         holder.tvLocalizacao.setText(local);
-        holder.tvAvaliacao.setNumStars(mList.get(position).getAvaliacaoNota());   //setText(String.valueOf(mList.get(position).getAvaliacaoNota()));
+        holder.tvAvaliacao.setRating(mList.get(position).getNotaStars());   //setText(String.valueOf(mList.get(position).getAvaliacaoNota()));
 
 
         Uri uri = Uri.parse(Url.URL_IMAGEM + mList.get(position).getImagemPerfil().getCaminho());

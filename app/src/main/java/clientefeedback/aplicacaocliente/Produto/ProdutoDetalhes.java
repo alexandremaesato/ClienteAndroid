@@ -190,7 +190,6 @@ public class ProdutoDetalhes extends AppCompatActivity implements Transaction, C
 
     @Override
     public void executeThis() {
-
         finish();
         startActivity(getIntent());
     }

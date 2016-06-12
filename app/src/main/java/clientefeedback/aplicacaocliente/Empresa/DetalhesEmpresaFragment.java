@@ -1,5 +1,7 @@
 package clientefeedback.aplicacaocliente.Empresa;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -311,8 +313,10 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
                 (new RequestAvaliacao(getContext(),getView(),avaliacao.getAvaliacaoid())).execute();
                 areaAvaliacao.setVisibility(View.VISIBLE);
                 avaliar.setVisibility(View.GONE);
+
             }
         }
+        reload();
     }
 
     @Override
@@ -357,6 +361,12 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
             }
         }
         return culinaria;
+
+    }
+
+    public void reload(){
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(this).attach(this).commit();
 
     }
 

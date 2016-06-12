@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity
         contextOfApplication = this;
         setSupportActionBar(toolbar);
         mFragment = MainFragment.newInstance("MAIN");
-        mFragmentManager.beginTransaction().replace(R.id.conteudo, mFragment).commit();
+        mFragmentManager.beginTransaction().replace(R.id.conteudo, mFragment,"main").addToBackStack("main").commit();
         sharedPreferences = getSharedPreferences("account", Context.MODE_PRIVATE);
 //        mQueue = Volley.newRequestQueue(getApplicationContext());
 
@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity
             mFragment = new PrincipalEmpresaFragment();
 
         } else if (id == R.id.nav_send) {
+            mFragment = new MainFragment();
         } else if (id == R.id.nav_busca) {
             mFragment = new BuscaFragment(mFragmentManager);
         }
@@ -364,8 +365,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void doBefore() {
         progressBar.setVisibility(View.VISIBLE);
-
-
     }
 
     @Override

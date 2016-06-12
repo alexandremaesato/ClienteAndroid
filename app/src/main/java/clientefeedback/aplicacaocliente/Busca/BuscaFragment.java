@@ -87,7 +87,7 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
         // TODO Auto-generated method stub
         final View rootView = inflater.inflate(R.layout.fragment_busca, container, false);
 
-        progressBar = (ProgressBar) rootView.findViewById(R.id.pbProxy);
+        progressBar = (ProgressBar) rootView.findViewById(R.id.pb_load);
 
         (new VolleyConn(getContext(), this)).execute();
 
@@ -320,7 +320,7 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
     @Override
     public void onClickListener(View view, int position) {
         BuscaEmpresaAdapter adapter = (BuscaEmpresaAdapter) mRecyclerView.getAdapter();
-        new CarregaEmpresaRequest(getView(), getContext(), fragmentManager, (int)adapter.getItemId(position));
+        new CarregaEmpresaRequest(getContext(), fragmentManager, (int)adapter.getItemId(position));
     }
 
     @Override

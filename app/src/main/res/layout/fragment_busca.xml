@@ -32,7 +32,7 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <ProgressBar
-        android:id="@+id/pbProxy"
+        android:id="@+id/pb_load"
         android:layout_gravity="center"
         android:visibility="gone"
         android:layout_width="wrap_content"
