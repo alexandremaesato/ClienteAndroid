@@ -39,7 +39,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="22/07/2016"
+                android:text="../../...."
                 android:id="@+id/tvAvaliacaoData1"
                 android:layout_column="13"
                 android:layout_marginLeft="100dp"
@@ -69,7 +69,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="algo"
                 android:id="@+id/tvAvaliacaoComentario1" />
         </LinearLayout>
     </LinearLayout>
@@ -108,7 +107,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="22/07/2016"
+                android:text="../../...."
                 android:id="@+id/tvAvaliacaoData2"
                 android:layout_column="13"
                 android:layout_marginLeft="100dp"
@@ -138,7 +137,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Um comentario longo, feito pela pessoa... comentario  comentario  comentario  comentario  comentario  comentario  comentario  comentario  comentario "
+                android:text=" "
                 android:id="@+id/tvAvaliacaoComentario2" />
         </LinearLayout>
     </LinearLayout>
@@ -178,7 +177,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="22/07/2016"
+                android:text="../../...."
                 android:id="@+id/tvAvaliacaoData3"
                 android:layout_column="13"
                 android:layout_marginLeft="100dp"
@@ -208,7 +207,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Um comentario longo, feito pela pessoa... comentario  comentario  comentario  comentario  comentario  comentario  comentario  comentario  comentario "
+                android:text=" "
                 android:id="@+id/tvAvaliacaoComentario3" />
         </LinearLayout>
     </LinearLayout>
