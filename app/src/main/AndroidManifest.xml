@@ -53,7 +53,11 @@
             android:label="@string/title_activity_cadastrar_produto"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Produto.ProdutoDetalhes"></activity>
+        <activity android:name=".Produto.ProdutoDetalhes" />
+        <activity
+            android:name=".Perfil.EditarPerfilActivity"
+            android:label="@string/title_activity_editar_perfil"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

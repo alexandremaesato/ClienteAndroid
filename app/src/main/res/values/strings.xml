@@ -220,5 +220,12 @@
 
     <string name="nao_autorizado">Não autorizado</string>
     <string name="erro_conexao">Erro de conexao</string>
+    <string name="title_activity_editar_perfil">Perfil</string>
+    <string name="sobrenome">Sobrenome</string>
+    <string name="dataNascimento">Data de Nascimento</string>
+    <string name="salvar">Salvar</string>
+    <string name="nome_perfil_obrigatorio">Nome Obrigatorio</string>
+    <string name="sobrenome_obrigatorio">Sobrenome Obrigatorio</string>
+    <string name="dataNascimento_obrigatorio">Data de Nascimento obrigatório</string>
 
 </resources>

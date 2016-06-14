@@ -3,17 +3,17 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/inicio"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:title="Início" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/perfil"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
-        <item
-            android:id="@+id/tabPagerExemplo"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="TabPager Exempplo" />
+            android:title="Perfil" />
+        <!--<item-->
+            <!--android:id="@+id/tabPagerExemplo"-->
+            <!--android:icon="@drawable/ic_menu_slideshow"-->
+            <!--android:title="TabPager Exempplo" />-->
         <item
             android:id="@+id/cadastrarEmpresa"
             android:icon="@drawable/ic_menu_manage"
@@ -23,16 +23,8 @@
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-            <item
                 android:id="@+id/nav_busca"
-                android:icon="@drawable/ic_play_light"
+                android:icon="@drawable/places_ic_search"
                 android:title="Busca" />
         </menu>
     </item>

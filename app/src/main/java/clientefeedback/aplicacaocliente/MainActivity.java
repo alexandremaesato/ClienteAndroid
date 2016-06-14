@@ -51,6 +51,7 @@ import clientefeedback.aplicacaocliente.Busca.BuscaFragment;
 import clientefeedback.aplicacaocliente.Empresa.CadastrarEmpresaActivity;
 import clientefeedback.aplicacaocliente.Empresa.PrincipalEmpresaFragment;
 import clientefeedback.aplicacaocliente.Login.VolleyConnCadastrar;
+import clientefeedback.aplicacaocliente.Perfil.EditarPerfilActivity;
 import clientefeedback.aplicacaocliente.Produto.CadastrarProdutoActivity;
 import clientefeedback.aplicacaocliente.Services.AutorizacaoRequest;
 import clientefeedback.aplicacaocliente.Services.CadastrarAutenticacaoRequest;
@@ -132,21 +133,18 @@ public class MainActivity extends AppCompatActivity
 
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-            mFragment = MainFragment.newInstance("teste");
+        if (id == R.id.inicio) {
+            mFragment = new MainFragment();
 
-        } else if (id == R.id.tabPagerExemplo) {
-            mFragment = new ViewPagerFragment();
+        } else if (id == R.id.perfil) {
+            Intent it = new Intent(this, EditarPerfilActivity.class);
+            startActivity(it);
+
+//        } else if (id == R.id.tabPagerExemplo) {
+//            mFragment = new ViewPagerFragment();
         } else if (id == R.id.cadastrarEmpresa) {
             Intent it = new Intent(this, CadastrarEmpresaActivity.class);
             startActivity(it);
-        } else if (id == R.id.nav_share) {
-            mFragment = new PrincipalEmpresaFragment();
-
-        } else if (id == R.id.nav_send) {
-            mFragment = new MainFragment();
         } else if (id == R.id.nav_busca) {
             mFragment = new BuscaFragment(mFragmentManager);
         }

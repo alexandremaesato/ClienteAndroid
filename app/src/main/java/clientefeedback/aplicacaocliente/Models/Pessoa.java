@@ -5,7 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.sql.Date;
+
+import java.util.Date;
 import java.util.List;
 
 import clientefeedback.aplicacaocliente.R;
@@ -22,19 +23,23 @@ public class Pessoa implements Parcelable {
     private String nome;
     private String sobrenome;
     private Date dataNascimento;
-    private int imagemPerfil;
+    private Imagem imagemPerfil;
     private int numeroFavoritados;
     private int numeroDesejados;
     private List listaFavoritos;
     private List listaDesejos;
+
+    public Pessoa(){
+
+    }
 
     protected Pessoa(Parcel in) {
         senha = in.readString();
         cpf = in.readString();
         nome = in.readString();
         sobrenome = in.readString();
-        Date dataNascimento;
-        imagemPerfil = in.readInt();
+        Date dataNascimento = in.readParcelable(Date.class.getClassLoader());
+        imagemPerfil = in.readParcelable(Imagem.class.getClassLoader());
         numeroFavoritados  = in.readInt();
         numeroDesejados  = in.readInt();
     }
@@ -108,11 +113,11 @@ public class Pessoa implements Parcelable {
         this.dataNascimento = dataNascimento;
     }
 
-    public int getImagemPerfil() {
+    public Imagem getImagemPerfil() {
         return imagemPerfil;
     }
 
-    public void setImagemPerfil(int imagemPerfil) {
+    public void setImagemPerfil(Imagem imagemPerfil) {
         this.imagemPerfil = imagemPerfil;
     }
 
@@ -167,7 +172,7 @@ public class Pessoa implements Parcelable {
         parcel.writeString(nome);
         parcel.writeString(sobrenome);
         parcel.writeValue(dataNascimento);
-        parcel.writeInt(imagemPerfil);
+        parcel.writeValue(imagemPerfil);
         parcel.writeInt(numeroFavoritados);
         parcel.writeInt(numeroDesejados);
     }
