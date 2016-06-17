@@ -284,7 +284,7 @@ public class CadastrarEmpresaFragment extends Fragment {
                 .setHintTextColor(getResources().getColor(R.color.colorPrimary));
         searchView.setOnQueryTextListener(onQuerySearchView);
 
-        menu.findItem(R.id.menu_add).setVisible(true);
+//        menu.findItem(R.id.menu_add).setVisible(true);
 
         //mSearchCheck = false;
     }
@@ -295,9 +295,9 @@ public class CadastrarEmpresaFragment extends Fragment {
 
         switch (item.getItemId()) {
 
-            case R.id.menu_add:
-                Toast.makeText(getActivity(), "Add", Toast.LENGTH_SHORT).show();
-                break;
+//            case R.id.menu_add:
+//                Toast.makeText(getActivity(), "Add", Toast.LENGTH_SHORT).show();
+//                break;
 
             case R.id.menu_search:
                 //mSearchCheck = true;

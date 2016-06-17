@@ -12,4 +12,5 @@ import clientefeedback.aplicacaocliente.R;
  */
 public interface SnackMessageInterface {
   public void executeAfterMessage();
+  public void executeAfterMessageWifi();
 }

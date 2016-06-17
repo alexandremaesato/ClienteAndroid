@@ -45,6 +45,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import clientefeedback.aplicacaocliente.Interfaces.CallBack;
 import clientefeedback.aplicacaocliente.Interfaces.RecyclerViewOnClickListenerHack;
 import clientefeedback.aplicacaocliente.Models.Empresa;
 import clientefeedback.aplicacaocliente.Models.Filtro;
@@ -60,14 +61,21 @@ import clientefeedback.aplicacaocliente.VolleyConn;
 
 
 @SuppressLint("ValidFragment")
-public class BuscaFragment extends Fragment implements Transaction,RecyclerViewOnClickListenerHack, SnackMessageInterface {
+public class BuscaFragment extends Fragment implements Transaction,RecyclerViewOnClickListenerHack, SnackMessageInterface, CallBack {
     static FragmentManager fragmentManager;
     private Context c = getContext();
+    private Transaction t = this;
     private boolean mSearchCheck;
     private static final String TEXT_FRAGMENT = "Busca";
     private ProgressBar progressBar;
+    MenuItem menuItem;
+    SearchView searchView;
+
+
     List<Empresa> empresas= new ArrayList<Empresa>();
     String stringBusca = "";
+    View mainView;
+    TextView semResultado;
 
     BuscaEmpresaAdapter adapter;
     private RecyclerView mRecyclerView;
@@ -75,6 +83,7 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private SharedData sharedData;
     int pos = 0;
+    int resultCode = 0;
 
 
     public BuscaFragment (FragmentManager f){
@@ -86,10 +95,12 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
                              Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         final View rootView = inflater.inflate(R.layout.fragment_busca, container, false);
+        mainView = rootView.findViewById(R.id.rlBusca);
 
         progressBar = (ProgressBar) rootView.findViewById(R.id.pb_load);
+        semResultado = (TextView) rootView.findViewById(R.id.semResultado);
 
-        (new VolleyConn(getContext(), this)).execute();
+        executeVolleySearch();
 
         rootView.setOnKeyListener( new View.OnKeyListener()
         {
@@ -139,20 +150,21 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
         adapter.setRecyclerViewOnClickListenerHack(this);
         mRecyclerView.setAdapter(adapter);
 
+
         mSwipeRefreshLayout =(SwipeRefreshLayout) rootView.findViewById(R.id.srl_swipe_busca);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
-                if(ConnectionVerify.verifyConnection(getActivity())){
+                if (ConnectionVerify.verifyConnection(getActivity())) {
                     BuscaEmpresaAdapter adapter = (BuscaEmpresaAdapter) mRecyclerView.getAdapter();
                     List<Empresa> listAux = getSetEmpresaList(5);
-                    for(int i = 0; i < listAux.size(); i++){
-                        adapter.addListItem( listAux.get(i), 0 );
+                    for (int i = 0; i < listAux.size(); i++) {
+                        adapter.addListItem(listAux.get(i), 0);
                         mRecyclerView.getLayoutManager().smoothScrollToPosition(mRecyclerView, null, 0);
                     }
                     mSwipeRefreshLayout.setRefreshing(false);
-                } else{
+                } else {
                     mSwipeRefreshLayout.setRefreshing(false);
                     Snackbar snackbar = Snackbar
                             .make(rootView, R.string.connection_swipe, Snackbar.LENGTH_INDEFINITE)
@@ -188,16 +200,25 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
         inflater.inflate(R.menu.menu_busca, menu);
 
         //Select search item
-        final MenuItem menuItem = menu.findItem(R.id.menu_search);
+        menuItem = menu.findItem(R.id.menu_search);
         menuItem.setVisible(true);
 
-        SearchView searchView = (SearchView) menuItem.getActionView();
-        searchView.setQueryHint("Busca");
+
+        searchView = (SearchView) menuItem.getActionView();
+        searchView.clearFocus();
+//        searchView.setQueryHint("Busca");
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                executeVolleySearch();
+
+            }
+        });
 
         ((EditText) searchView.findViewById(R.id.search_src_text)).setHintTextColor(getResources().getColor(R.color.colorPrimary));
         searchView.setOnQueryTextListener(onQuerySearchView);
 
-        menu.findItem(R.id.menu_add).setVisible(true);
+//        menu.findItem(R.id.menu_add).setVisible(true);
 
         mSearchCheck = false;
 
@@ -209,10 +230,24 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
             public boolean onMenuItemClick(MenuItem menuItem) {
                 Intent intent = new Intent(getContext(), FilterActivity.class);
                 startActivity(intent);
-                return false;
+                return true;
             }
         });
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if( searchView != null) {
+            searchView.clearFocus();
+        }
     }
 
     @Override
@@ -221,9 +256,9 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
 
         switch (item.getItemId()) {
 
-            case R.id.menu_add:
-                Toast.makeText(getActivity(), "Add", Toast.LENGTH_SHORT).show();
-                break;
+//            case R.id.menu_add:
+//                Toast.makeText(getActivity(), "Add", Toast.LENGTH_SHORT).show();
+//                break;
 
             case R.id.menu_search:
                 mSearchCheck = true;
@@ -237,16 +272,20 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
     private SearchView.OnQueryTextListener onQuerySearchView = new SearchView.OnQueryTextListener() {
         @Override
         public boolean onQueryTextSubmit(String s) {
-            sharedData = new SharedData(getContext());
-            sharedData.setSearch(s);
+//            sharedData = new SharedData(getContext());
+//            sharedData.setSearch(s);
             executeSearch();
+            stringBusca = s;
             return false;
         }
 
         @Override
         public boolean onQueryTextChange(String s) {
             if (mSearchCheck){
-                // implement your search here
+                if(s.equals("")){
+                    this.onQueryTextSubmit("");
+                }
+                return true;
             }
             return false;
         }
@@ -255,7 +294,21 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
 
     @Override
     public void doBefore() {
-        progressBar.setVisibility(View.VISIBLE);
+        if( ConnectionVerify.verifyConnection(getActivity()) ) {
+            progressBar.setVisibility(View.VISIBLE);
+        }else{
+            Snackbar snackbar = Snackbar
+                    .make(mainView, R.string.error, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.btnretry, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent it = new Intent(Settings.ACTION_WIFI_SETTINGS);
+                            startActivity(it);
+                        }
+                    });
+            snackbar.setActionTextColor(Color.YELLOW);
+            snackbar.show();
+        }
 
     }
 
@@ -270,7 +323,9 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
             empresas = gson.fromJson(empresasJson.toString(),  new TypeToken<ArrayList<Empresa>>() {
             }.getType());
 
-            if (empresas.size() > -1) {
+            if (empresas.size() > 0) {
+                mRecyclerView.setVisibility(View.VISIBLE);
+                semResultado.setVisibility(View.GONE);
                 pos = 0;
                 LinearLayoutManager llm = new LinearLayoutManager(getActivity());
                 llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -281,12 +336,14 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
                 mRecyclerView.setAdapter(adapter);
 
             }else{
-
+                mRecyclerView.setVisibility(View.GONE);
+                semResultado.setVisibility(View.VISIBLE);
+                //Snackbar snackbar = Snackbar.make(mainView, "")
             }
         }
         catch(Exception e){
             e.printStackTrace();
-            new SnackMessage(this).snackShowError(getView());
+            new SnackMessage(this).snackShowError(mainView);
         }
         finally {
             progressBar.setVisibility(View.GONE);
@@ -305,7 +362,7 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
         Gson gson = new Gson();
         Map<String,String> lista = new HashMap<String,String>();
         sharedData = new SharedData(getContext());
-        filtro.setNomeempresa(sharedData.getSearch());
+        filtro.setNomeempresa(stringBusca);
         filtro.setCulinaria(sharedPreferences.getString("culinaria", ""));
         filtro.setEstado(sharedPreferences.getString("estado", ""));
         filtro.setCidade(sharedPreferences.getString("cidade", ""));
@@ -345,15 +402,42 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
 
     @Override
     public void executeAfterMessage() {
-        (new VolleyConn(getContext(), this)).execute();
+        executeVolleySearch();
+}
+    @Override
+    public void executeAfterMessageWifi() {
+        Intent it = new Intent(Settings.ACTION_WIFI_SETTINGS);
+        startActivityForResult(it,resultCode);
 
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+////                while(resultCode < 0){
+////                    System.out.println("<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>");
+////                    try {
+////                        wait(1000);
+////                    } catch (InterruptedException e) {
+////                        e.printStackTrace();
+////                    }
+////                }
+////                (new VolleyConn(c, t)).execute();
+//                Toast.makeText(c, "Toast", Toast.LENGTH_SHORT).show();
+//            }
+//        }).start();
     }
 
     private void executeSearch(){
-        (new VolleyConn(getContext(), this)).execute();
+        executeVolleySearch();
     }
 
 
+    @Override
+    public void executeThis() {
+        executeVolleySearch();
+    }
 
-
+    private void executeVolleySearch(){
+        (new VolleyConn(getContext(), this)).execute();
+    }
 }

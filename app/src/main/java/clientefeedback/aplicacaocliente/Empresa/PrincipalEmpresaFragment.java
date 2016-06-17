@@ -84,9 +84,13 @@ public class PrincipalEmpresaFragment extends Fragment{
         cardapio.setArguments(bundle);
         mTabs.add(new TabPagerItem("Cardápio", cardapio));
 
-        Fragment programacao = MainFragment.newInstance("programacao");
+        Fragment programacao = ProgramacaoEmpresaFragment.newInstance("programacao");
         programacao.setArguments(bundle);
         mTabs.add(new TabPagerItem("Programação", programacao));
+
+        Fragment ambiente = AmbienteEmpresaFragment.newInstance("ambiente");
+
+        mTabs.add(new TabPagerItem("ambiente", ambiente));
     }
 
     @Override
@@ -134,7 +138,7 @@ public class PrincipalEmpresaFragment extends Fragment{
                 .setHintTextColor(getResources().getColor(R.color.colorPrimary));
         searchView.setOnQueryTextListener(onQuerySearchView);
 
-        menu.findItem(R.id.menu_add).setVisible(true);
+//        menu.findItem(R.id.menu_add).setVisible(true);
         mSearchCheck = false;
     }
 

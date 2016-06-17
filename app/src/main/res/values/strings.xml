@@ -227,5 +227,7 @@
     <string name="nome_perfil_obrigatorio">Nome Obrigatorio</string>
     <string name="sobrenome_obrigatorio">Sobrenome Obrigatorio</string>
     <string name="dataNascimento_obrigatorio">Data de Nascimento obrigatório</string>
+    <string name="perfil">Perfil</string>
+    <string name="cancel">Cancelar</string>
 
 </resources>

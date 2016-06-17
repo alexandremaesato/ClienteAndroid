@@ -84,7 +84,6 @@ public class ProdutoDetalhes extends AppCompatActivity implements Transaction, C
             conn.execute();
         }
 
-
     }
 
     @Override

@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import clientefeedback.aplicacaocliente.Interfaces.CallBack;
 import clientefeedback.aplicacaocliente.R;
 import clientefeedback.aplicacaocliente.Services.AutorizacaoRequest;
 import clientefeedback.aplicacaocliente.Services.Url;
@@ -45,19 +46,19 @@ public class FilterActivity extends AppCompatActivity {
     Spinner spinnerEstados;
     Spinner spinnerCidades;
     Spinner spinnerBairros;
-    Spinner spinnerCulinaria;
-    Spinner spinnerOrdenacao;
+//    Spinner spinnerCulinaria;
+//    Spinner spinnerOrdenacao;
     ArrayAdapter<String> adapterCidades;
     ArrayAdapter<String> adapterBairros;
-    Long sharedCulinaria;
+//    Long sharedCulinaria;
     Long sharedBairro;
     Long sharedCidade;
     Long sharedEstado;
-    int sharedValorMaximo;
-    int sharedValorMinimo;
-    int sharedComentados;
-    int sharedBuscados;
-    Long sharedOrdenacao;
+//    int sharedValorMaximo;
+//    int sharedValorMinimo;
+//    int sharedComentados;
+//    int sharedBuscados;
+//    Long sharedOrdenacao;
     ProgressBar progressBar;
     private static final Object TAG = new Object();
     RequestQueue mQueue;
@@ -74,31 +75,29 @@ public class FilterActivity extends AppCompatActivity {
         listaBairros = new ArrayList<String>();
         progressBar = (ProgressBar)findViewById(R.id.progressBarFilter);
         progressBar.setVisibility(View.GONE);
-
         carregarSharedPreferences();
+//        spinnerOrdenacao = (Spinner) findViewById(R.id.spinnerOrdenacao);
+//        ArrayAdapter<CharSequence> adapterOrdem = ArrayAdapter.createFromResource(this,
+//                R.array.tipo_ordem, android.R.layout.simple_spinner_item);
+//        adapterOrdem.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinnerOrdenacao.setAdapter(adapterOrdem);
+//        spinnerOrdenacao.setSelection(sharedOrdenacao.intValue());
+//
+//        spinnerCulinaria = (Spinner) findViewById(R.id.spinnerCulinaria);
+//        ArrayAdapter<CharSequence> adapterCulinaria = ArrayAdapter.createFromResource(this,
+//                R.array.tipo_cozinhas, android.R.layout.simple_spinner_item);
+//        adapterCulinaria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinnerCulinaria.setAdapter(adapterCulinaria);
+//        spinnerCulinaria.setSelection(sharedCulinaria.intValue());
 
-        spinnerOrdenacao = (Spinner) findViewById(R.id.spinnerOrdenacao);
-        ArrayAdapter<CharSequence> adapterOrdem = ArrayAdapter.createFromResource(this,
-                R.array.tipo_ordem, android.R.layout.simple_spinner_item);
-        adapterOrdem.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerOrdenacao.setAdapter(adapterOrdem);
-        spinnerOrdenacao.setSelection(sharedOrdenacao.intValue());
 
-        spinnerCulinaria = (Spinner) findViewById(R.id.spinnerCulinaria);
-        ArrayAdapter<CharSequence> adapterCulinaria = ArrayAdapter.createFromResource(this,
-                R.array.tipo_cozinhas, android.R.layout.simple_spinner_item);
-        adapterCulinaria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerCulinaria.setAdapter(adapterCulinaria);
-        spinnerCulinaria.setSelection(sharedCulinaria.intValue());
-
-
-        rangeSeekBar = new RangeSeekBar<Integer>(this);
-        rangeSeekBar.setRangeValues(5, 500);
-        rangeSeekBar.setSelectedMinValue(sharedValorMinimo);
-        rangeSeekBar.setSelectedMaxValue(sharedValorMaximo);
-        LinearLayout layout = (LinearLayout) findViewById(R.id.rangerSeek);
-        layout.addView(rangeSeekBar);
-        rangeSeekBar.setTextAboveThumbsColorResource(android.R.color.holo_orange_dark);
+//        rangeSeekBar = new RangeSeekBar<Integer>(this);
+//        rangeSeekBar.setRangeValues(5, 500);
+//        rangeSeekBar.setSelectedMinValue(sharedValorMinimo);
+//        rangeSeekBar.setSelectedMaxValue(sharedValorMaximo);
+//        LinearLayout layout = (LinearLayout) findViewById(R.id.rangerSeek);
+//        layout.addView(rangeSeekBar);
+//        rangeSeekBar.setTextAboveThumbsColorResource(android.R.color.holo_orange_dark);
 
 //        rgComentados = (RadioGroup)findViewById(R.id.rgComentados);
 //        rgComentados.check(sharedComentados);
@@ -160,8 +159,10 @@ public class FilterActivity extends AppCompatActivity {
         btnFiltrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setResult(1);
                 salvarSharedPreferences();
                 finish();
+
             }
         });
 
@@ -172,6 +173,8 @@ public class FilterActivity extends AppCompatActivity {
                 limparFiltro();
             }
         });
+
+
 
     }
 
@@ -195,26 +198,26 @@ public class FilterActivity extends AppCompatActivity {
     public void carregarSharedPreferences(){
         SharedPreferences sharedPreferences;
         sharedPreferences = getSharedPreferences("filtro", Context.MODE_PRIVATE);
-        sharedOrdenacao = sharedPreferences.getLong("ordenacaoId", 0);
-        sharedCulinaria = sharedPreferences.getLong("culinariaId", 0);
+//        sharedOrdenacao = sharedPreferences.getLong("ordenacaoId", 0);
+//        sharedCulinaria = sharedPreferences.getLong("culinariaId", 0);
         sharedEstado = sharedPreferences.getLong("estadoId", 0);
         sharedCidade = sharedPreferences.getLong("cidadeId",0);
         sharedBairro = sharedPreferences.getLong("bairroId",0);
-        sharedValorMinimo = sharedPreferences.getInt("valorMinimo", 5);
-        sharedValorMaximo = sharedPreferences.getInt("valorMaximo", 500);
-        sharedComentados = sharedPreferences.getInt("comentadosId",0);
-        sharedBuscados = sharedPreferences.getInt("buscadosId", 0);
+//        sharedValorMinimo = sharedPreferences.getInt("valorMinimo", 5);
+//        sharedValorMaximo = sharedPreferences.getInt("valorMaximo", 500);
+//        sharedComentados = sharedPreferences.getInt("comentadosId",0);
+//        sharedBuscados = sharedPreferences.getInt("buscadosId", 0);
     }
 
     public void salvarSharedPreferences(){
         SharedPreferences sharedPreferences;
         sharedPreferences = getSharedPreferences("filtro", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putLong("ordenacaoId", spinnerOrdenacao.getSelectedItemId());
-        editor.putString("ordenacao", spinnerOrdenacao.getSelectedItem().toString());
-
-        editor.putLong("culinariaId", spinnerCulinaria.getSelectedItemId());
-        editor.putString("culinaria", spinnerCulinaria.getSelectedItem().toString());
+//        editor.putLong("ordenacaoId", spinnerOrdenacao.getSelectedItemId());
+//        editor.putString("ordenacao", spinnerOrdenacao.getSelectedItem().toString());
+//
+//        editor.putLong("culinariaId", spinnerCulinaria.getSelectedItemId());
+//        editor.putString("culinaria", spinnerCulinaria.getSelectedItem().toString());
 
         editor.putLong("estadoId", spinnerEstados.getSelectedItemId());
         editor.putString("estado", spinnerEstados.getSelectedItem().toString());
@@ -225,9 +228,9 @@ public class FilterActivity extends AppCompatActivity {
         editor.putLong("bairroId", spinnerBairros.getSelectedItemId());
         editor.putString("bairro", spinnerBairros.getSelectedItem().toString());
 
-        editor.putInt("valorMinimo", rangeSeekBar.getSelectedMinValue());
-
-        editor.putInt("valorMaximo", rangeSeekBar.getSelectedMaxValue());
+//        editor.putInt("valorMinimo", rangeSeekBar.getSelectedMinValue());
+//
+//        editor.putInt("valorMaximo", rangeSeekBar.getSelectedMaxValue());
 
 
 //        editor.putInt("comentadosId", rgComentados.getCheckedRadioButtonId());
@@ -244,6 +247,8 @@ public class FilterActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("filtro", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
+        editor.putLong("cidadeId", 0);
+        editor.putString("cidade", "");
         editor.commit();
         finish();
         startActivity(getIntent());
@@ -331,6 +336,8 @@ public class FilterActivity extends AppCompatActivity {
 
         return stringArray;
     }
+
+
 
 
 

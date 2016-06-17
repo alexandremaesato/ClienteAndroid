@@ -58,15 +58,24 @@ public class BuscaEmpresaAdapter extends RecyclerView.Adapter<BuscaEmpresaAdapte
         notaFloat = (notaFloat/10)/2;
         holder.ratingBar.setRating(notaFloat);
 
+        // VERIFICA SE TEM IMAGEM E ADICIONA NO URI
+        Uri uri;
+        if((mList.get(position).getImagemPerfil().getNomeImagem() != null)) {
+            uri = Uri.parse(Url.IP + "ServidorAplicativo/" + mList.get(position).getImagemPerfil().getCaminho());
+        }else{
+            uri = Uri.parse(Url.URL_IMAGEM + "/images/sem_imagem.jpg");
+        }
 
-        Uri uri = Uri.parse(Url.IP + "ServidorAplicativo/" + mList.get(position).getImagemPerfil().getCaminho());
+//        System.out.println("CAMINHO da IMAGEM =======>: "+ uri.getEncodedPath());
 
+        //CARREGAR A IMAGEM NO IMAGEVIEW A PARTIR DO URI
         ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
                 .setResizeOptions(new ResizeOptions(width, height))
                 .build();
         DraweeController controller = Fresco.newDraweeControllerBuilder()
                 .setOldController(holder.draweeView.getController())
                 .setImageRequest(request)
+                .setRetainImageOnFailure(true)
                 .build();
         holder.draweeView.setController(controller);
 

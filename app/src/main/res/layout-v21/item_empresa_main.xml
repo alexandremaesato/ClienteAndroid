@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             fresco:actualImageScaleType="centerCrop"
+            fresco:failureImage="@drawable/error"
             fresco:placeholderImage="@drawable/image" />
 
         <LinearLayout

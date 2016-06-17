@@ -24,10 +24,10 @@
         app:showAsAction="ifRoom|collapseActionView"
         android:title="Busca"/>
 
-    <item
-        android:id="@+id/menu_add"
-        android:icon="@drawable/ic_add_white_24dp"
-        app:showAsAction="ifRoom"
-        android:title="Add"/>
+    <!--<item-->
+        <!--android:id="@+id/menu_add"-->
+        <!--android:icon="@drawable/ic_add_white_24dp"-->
+        <!--app:showAsAction="ifRoom"-->
+        <!--android:title="Add"/>-->
 
 </menu>

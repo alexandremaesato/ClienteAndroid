@@ -345,12 +345,12 @@ public class MainActivity extends AppCompatActivity
 
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.lista_desejos:
-                Toast.makeText(this, "Foi para Lista de Desejo", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.algo:
-                Toast.makeText(this, "foi para algo", Toast.LENGTH_SHORT).show();
-                return true;
+//            case R.id.lista_desejos:
+//                Toast.makeText(this, "Foi para Lista de Desejo", Toast.LENGTH_SHORT).show();
+//                return true;
+//            case R.id.algo:
+//                Toast.makeText(this, "foi para algo", Toast.LENGTH_SHORT).show();
+//                return true;
             default:
                 return false;
         }

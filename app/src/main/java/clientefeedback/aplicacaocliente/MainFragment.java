@@ -173,7 +173,7 @@ public class MainFragment extends Fragment implements RecyclerViewOnClickListene
                 .setHintTextColor(getResources().getColor(R.color.colorPrimary));
         searchView.setOnQueryTextListener(onQuerySearchView);
 
-        menu.findItem(R.id.menu_add).setVisible(true);
+//        menu.findItem(R.id.menu_add).setVisible(true);
 
         mSearchCheck = false;
     }
@@ -184,11 +184,11 @@ public class MainFragment extends Fragment implements RecyclerViewOnClickListene
 
         switch (item.getItemId()) {
 
-            case R.id.menu_add:
-                Toast.makeText(getActivity(), getFragmentManager().getFragments().get(0).toString(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(getActivity(), "Add", Toast.LENGTH_SHORT).show();
-
-                break;
+//            case R.id.menu_add:
+//                Toast.makeText(getActivity(), getFragmentManager().getFragments().get(0).toString(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "Add", Toast.LENGTH_SHORT).show();
+//
+//                break;
 
             case R.id.menu_search:
                 mSearchCheck = true;
@@ -332,12 +332,12 @@ public class MainFragment extends Fragment implements RecyclerViewOnClickListene
 
     @Override
     public void executeAfterMessage() {
-        if(boolLoadWifi){
-            boolLoadWifi = false;
-            Intent it = new Intent(Settings.ACTION_WIFI_SETTINGS);
-            startActivity(it);
-        }else {
-            execute();
-        }
+        execute();
+    }
+
+    @Override
+    public void executeAfterMessageWifi() {
+        Intent it = new Intent(Settings.ACTION_WIFI_SETTINGS);
+        startActivity(it);
     }
 }

@@ -39,8 +39,10 @@ import java.util.List;
 import clientefeedback.aplicacaocliente.Avaliacao.AvaliacaoDialogFragment;
 import clientefeedback.aplicacaocliente.Avaliacao.AvaliacoesDetalhesRequest;
 import clientefeedback.aplicacaocliente.Avaliacao.RequestAvaliacao;
+import clientefeedback.aplicacaocliente.Avaliacao.TodasAvaliacoesActivity;
 import clientefeedback.aplicacaocliente.Comentario.ComentarioDetalhesRequest;
 import clientefeedback.aplicacaocliente.Comentario.ComentarioDialogFragment;
+import clientefeedback.aplicacaocliente.Comentario.TodosComentariosActivity;
 import clientefeedback.aplicacaocliente.MainFragment;
 import clientefeedback.aplicacaocliente.Models.Avaliacao;
 import clientefeedback.aplicacaocliente.Models.Comentario;
@@ -75,6 +77,8 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
     TextView descricao;
     TextView adicionarProduto;
     TextView souDono;
+    TextView todosComentarios;
+    TextView todasAvaliacoes;
     ImageView imagemPerfil;
     Button avaliar;
     Button comentar;
@@ -110,7 +114,6 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
             if(empresa.getEntidade().getIdcriador()>0){
                 temDono = true;
             }
-
         }
         createTabPagerItem();
     }
@@ -183,6 +186,8 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
         String url = null;
         if(empresa.hasImagemPerfil()) {
             url = Url.URL_IMAGEM + empresa.getImagemPerfil().getCaminho();
+        }else{
+            url = Url.URL_IMAGEM + "/images/sem_imagem.jpg";
         }
         imageLoader.displayImage(url, imagemPerfil);
 
@@ -239,6 +244,26 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
                     getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 }
                 return false;
+            }
+        });
+
+        todosComentarios = (TextView)rootView.findViewById(R.id.tvTodosComentarios);
+        todosComentarios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), TodosComentariosActivity.class);
+                intent.putExtra("idEmpresa", empresa.getEmpresaId());
+                startActivity(intent);
+            }
+        });
+
+        todasAvaliacoes = (TextView)rootView.findViewById(R.id.tvTodasAvaliacoes);
+        todasAvaliacoes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), TodasAvaliacoesActivity.class);
+                intent.putExtra("idEmpresa", empresa.getEmpresaId());
+                startActivity(intent);
             }
         });
 

@@ -1,5 +1,6 @@
 package clientefeedback.aplicacaocliente.Services;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.provider.Settings;
@@ -14,9 +15,11 @@ import clientefeedback.aplicacaocliente.R;
 public class SnackMessage {
     private SnackMessageInterface snackMessageInterface;
     private Object object;
+    private Activity a;
 
     public SnackMessage(SnackMessageInterface s){
         this.snackMessageInterface = s;
+        //this.a = c;
     }
 
     public void snackShowError(View view){
@@ -26,6 +29,7 @@ public class SnackMessage {
                     @Override
                     public void onClick(View view) {
                         snackMessageInterface.executeAfterMessage();
+                        //executeAfterMessage();
                     }
                 });
         snackbar.setActionTextColor(Color.YELLOW);
@@ -38,11 +42,22 @@ public class SnackMessage {
                 .setAction(R.string.connect, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        snackMessageInterface.executeAfterMessage();
+                        snackMessageInterface.executeAfterMessageWifi();
                     }
                 });
         snackbar.setActionTextColor(Color.YELLOW);
         snackbar.show();
     }
+
+    public void executeAfterMessage() {
+//        if(ConnectionVerify.verifyConnection(getActivity())){
+//            boolLoadWifi = false;
+//            Intent it = new Intent(Settings.ACTION_WIFI_SETTINGS);
+//            startActivity(it);
+//        }else {
+//            execute();
+//        }
+    }
+
 
 }

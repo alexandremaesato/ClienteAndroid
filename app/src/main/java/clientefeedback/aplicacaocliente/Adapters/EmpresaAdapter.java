@@ -71,8 +71,13 @@ public class EmpresaAdapter extends RecyclerView.Adapter<EmpresaAdapter.MyViewHo
         holder.tvLocalizacao.setText(local);
         holder.tvAvaliacao.setRating(mList.get(position).getNotaStars());   //setText(String.valueOf(mList.get(position).getAvaliacaoNota()));
 
-
-        Uri uri = Uri.parse(Url.URL_IMAGEM + mList.get(position).getImagemPerfil().getCaminho());
+        Uri uri;
+        if((mList.get(position).getImagemPerfil().getNomeImagem() != null)) {
+            uri = Uri.parse(Url.IP + "ServidorAplicativo/" + mList.get(position).getImagemPerfil().getCaminho());
+        }else{
+            uri = Uri.parse(Url.URL_IMAGEM + "/images/sem_imagem.jpg");
+        }
+        //Uri uri = Uri.parse(Url.URL_IMAGEM + mList.get(position).getImagemPerfil().getCaminho());
 
         // Resizing image using Fresco
             ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)

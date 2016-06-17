@@ -62,17 +62,8 @@
                     android:id="@+id/btnCamera"
                     android:src="@drawable/ic_camera_enhance_black_24dp"
                     android:layout_alignParentRight="true"
-                    android:layout_margin="5dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="1"
-                    android:id="@+id/tvQuantidadeFotos"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="50dp"
-                    android:layout_marginTop="10dp" />
+                    android:layout_margin="5dp"
+                    android:visibility="gone" />
 
             </RelativeLayout>
 
@@ -390,7 +381,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="Todos cometários"
-                        android:id="@+id/textView17"
+                        android:id="@+id/tvTodosComentarios"
                         android:gravity="right" />
 
                 </LinearLayout>
@@ -442,7 +433,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Todos as avaliações"
-                    android:id="@+id/textView10"
+                    android:id="@+id/tvTodasAvaliacoes"
                     android:gravity="right"
                     android:layout_marginRight="10dp" />
             </LinearLayout>

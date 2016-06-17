@@ -168,10 +168,10 @@ public class ProdutoFragment extends Fragment implements RecyclerViewOnClickList
 
         switch (item.getItemId()) {
 
-            case R.id.menu_add:
-                Intent intent = new Intent(getContext(), CadastrarEmpresaActivity.class);
-                startActivity(intent);
-                break;
+//            case R.id.menu_add:
+//                Intent intent = new Intent(getContext(), CadastrarEmpresaActivity.class);
+//                startActivity(intent);
+//                break;
 
             case R.id.menu_search:
                 mSearchCheck = true;
