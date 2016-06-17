@@ -43,6 +43,7 @@ import clientefeedback.aplicacaocliente.Avaliacao.TodasAvaliacoesActivity;
 import clientefeedback.aplicacaocliente.Comentario.ComentarioDetalhesRequest;
 import clientefeedback.aplicacaocliente.Comentario.ComentarioDialogFragment;
 import clientefeedback.aplicacaocliente.Comentario.TodosComentariosActivity;
+import clientefeedback.aplicacaocliente.Favorito.FavoritarRequest;
 import clientefeedback.aplicacaocliente.MainFragment;
 import clientefeedback.aplicacaocliente.Models.Avaliacao;
 import clientefeedback.aplicacaocliente.Models.Comentario;
@@ -267,6 +268,15 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
             }
         });
 
+        btnFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedData sd = new SharedData(getContext());
+
+                new FavoritarRequest(getContext(), sd.getPessoaId(), empresa.getEmpresaId(), "empresa", btnFavorite.isChecked());
+            }
+        });
+
 
         return rootView;
     }
@@ -274,13 +284,7 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         loadComentarios();
-        btnFavorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(), "Favorito clicado", Toast.LENGTH_SHORT).show();
 
-            }
-        });
     }
 
     public Bitmap getImageFromBase64(String img){
