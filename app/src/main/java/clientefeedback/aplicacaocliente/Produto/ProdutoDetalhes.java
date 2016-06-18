@@ -3,6 +3,7 @@ package clientefeedback.aplicacaocliente.Produto;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -39,9 +41,11 @@ import java.util.List;
 import clientefeedback.aplicacaocliente.Avaliacao.AvaliacaoDialogFragment;
 import clientefeedback.aplicacaocliente.Avaliacao.AvaliacaoDialogProdutoFragment;
 import clientefeedback.aplicacaocliente.Avaliacao.RequestAvaliacao;
+import clientefeedback.aplicacaocliente.Favorito.FavoritarRequest;
 import clientefeedback.aplicacaocliente.Interfaces.CallBack;
 import clientefeedback.aplicacaocliente.Models.Avaliacao;
 import clientefeedback.aplicacaocliente.Models.Comentario;
+import clientefeedback.aplicacaocliente.Models.Favorito;
 import clientefeedback.aplicacaocliente.Models.Pessoa;
 import clientefeedback.aplicacaocliente.Models.Produto;
 import clientefeedback.aplicacaocliente.R;
@@ -53,6 +57,7 @@ import clientefeedback.aplicacaocliente.VolleyConGET;
 
 public class ProdutoDetalhes extends AppCompatActivity implements Transaction, CallBack {
     int idProduto;
+    boolean favoritado;
     ProgressBar progressBar;
     ImageView imagem;
     TextView preco;
@@ -65,9 +70,11 @@ public class ProdutoDetalhes extends AppCompatActivity implements Transaction, C
     private int width;
     private int height;
     Button btnAvaliar;
+    ToggleButton btnFavorito;
     View header;
     AvaliacaoDialogProdutoFragment avaliacaoDialogProdutoFragment;
     VolleyConGET conn;
+    Context c = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +86,7 @@ public class ProdutoDetalhes extends AppCompatActivity implements Transaction, C
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             this.idProduto = extras.getInt("idProduto");
+            this.favoritado = extras.getBoolean("favoritado");
             createView();
             conn = new VolleyConGET(this, this);
             conn.execute();
@@ -122,7 +130,7 @@ public class ProdutoDetalhes extends AppCompatActivity implements Transaction, C
         listView = (ListView)findViewById(R.id.listViewProdutoAvaliacao);
         header = getLayoutInflater().inflate(R.layout.activity_produto_detalhes_header, null);
         listView.addHeaderView(header);
-        progressBar = (ProgressBar) findViewById(R.id.progressBarProduto);
+        progressBar = (ProgressBar) findViewById(R.id.progressBarGeral);
         tvNomeProduto = (TextView)findViewById(R.id.tvNomeProduto);
         preco = (TextView)findViewById(R.id.tvPreco);
         descricao = (TextView)findViewById(R.id.tvDescricaoProduto);
@@ -131,6 +139,8 @@ public class ProdutoDetalhes extends AppCompatActivity implements Transaction, C
         width = getResources().getDisplayMetrics().widthPixels - (int) (14 * scale + 0.5f);
         height = (width / 16) * 9;
         btnAvaliar = (Button)findViewById(R.id.btnAvaliarProduto);
+        btnFavorito = (ToggleButton)findViewById(R.id.favorito);
+
     }
 
     public void loadView(){
@@ -150,6 +160,21 @@ public class ProdutoDetalhes extends AppCompatActivity implements Transaction, C
             @Override
             public void onClick(View view) {
                 dialogAvaliacao();
+            }
+        });
+
+        btnFavorito.setChecked(favoritado);
+        btnFavorito.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedData sd = new SharedData(getBaseContext());
+                Favorito favorito = new Favorito();
+                //favorito.setIdFavorito();
+                favorito.setCheck(btnFavorito.isChecked());
+                favorito.setTipoFavoritado("produto");
+                favorito.setIdFavoritado(idProduto);
+                favorito.setIdPessoa(sd.getPessoaId());
+                new FavoritarRequest(c, favorito);
             }
         });
     }

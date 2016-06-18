@@ -32,6 +32,7 @@ import clientefeedback.aplicacaocliente.Interfaces.OnItemClickListener;
 import clientefeedback.aplicacaocliente.Interfaces.RecyclerViewOnClickListenerHack;
 import clientefeedback.aplicacaocliente.Models.Avaliacao;
 import clientefeedback.aplicacaocliente.Models.Empresa;
+import clientefeedback.aplicacaocliente.Models.Favorito;
 import clientefeedback.aplicacaocliente.Models.Produto;
 import clientefeedback.aplicacaocliente.R;
 import clientefeedback.aplicacaocliente.RequestData;
@@ -50,6 +51,7 @@ public class ProdutoFragment extends Fragment implements RecyclerViewOnClickList
     private static final String TEXT_FRAGMENT = "TEXT_FRAGMENT";
     private RecyclerView mRecyclerView;
     private List<Produto> mList;
+    private List<Favorito> favoritos;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private Empresa empresa;
     private int idProdutoAvaliacao;
@@ -73,6 +75,7 @@ public class ProdutoFragment extends Fragment implements RecyclerViewOnClickList
        bundle = this.getArguments();
         if (bundle != null) {
             empresa = bundle.getParcelable("empresa");
+            favoritos = bundle.getParcelableArrayList("favoritos");
         }
         mList = getSetProdutoList(5);
     }
@@ -209,6 +212,7 @@ public class ProdutoFragment extends Fragment implements RecyclerViewOnClickList
         ProdutoAdapter adapter = (ProdutoAdapter) mRecyclerView.getAdapter();
         Intent it = new Intent(getContext(),ProdutoDetalhes.class);
         it.putExtra("idProduto", mList.get(position).getProdutoid());
+        it.putExtra("favoritado",favoritado(mList.get(position).getProdutoid()));
         startActivity(it);
         //adapter.removeListItem(position);
     }
@@ -275,8 +279,18 @@ public class ProdutoFragment extends Fragment implements RecyclerViewOnClickList
          avaliacao.setPessoaid(sd.getPessoaId());
          avaliacao.setAvaliadoid(idProdutoAvaliacao);
          avaliacao.setTipoAvalicao(Avaliacao.PRODUTO);
-
      }
+
+    private boolean favoritado(int id){
+        boolean result = false;
+        for(int i=0; i<favoritos.size(); i++){
+            if("produto".equals(favoritos.get(i).getTipoFavoritado()) && favoritos.get(i).getIdFavoritado()== id){
+                result = true;
+                return result;
+            }
+        }
+        return result;
+    }
 
 
 }

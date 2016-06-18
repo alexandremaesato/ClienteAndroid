@@ -193,6 +193,7 @@ public class Empresa implements Parcelable{
         return entidade;
     }
 
+
     public void setEntidade(Entidade entidade) {
         this.entidade = entidade;
     }

@@ -38,6 +38,7 @@ import clientefeedback.aplicacaocliente.Busca.BuscaEmpresaAdapter;
 import clientefeedback.aplicacaocliente.Busca.BuscaRequest;
 import clientefeedback.aplicacaocliente.MainFragment;
 import clientefeedback.aplicacaocliente.Models.Empresa;
+import clientefeedback.aplicacaocliente.Models.Favorito;
 import clientefeedback.aplicacaocliente.Models.Filtro;
 import clientefeedback.aplicacaocliente.R;
 import clientefeedback.aplicacaocliente.RequestData;
@@ -55,6 +56,7 @@ import clientefeedback.aplicacaocliente.VolleyConn;
 public class PrincipalEmpresaFragment extends Fragment{
     private List<TabPagerItem> mTabs = new ArrayList<>();
     private Empresa empresa;
+    private List<Favorito> favoritos;
     Bundle bundle = new Bundle();
     boolean notTrue = false;
     boolean mSearchCheck = false;
@@ -67,6 +69,9 @@ public class PrincipalEmpresaFragment extends Fragment{
         bundle = this.getArguments();
         if (bundle != null) {
             empresa = bundle.getParcelable("empresa");
+            favoritos = bundle.getParcelableArrayList("favoritos");
+
+
         }
         createTabPagerItem();
 

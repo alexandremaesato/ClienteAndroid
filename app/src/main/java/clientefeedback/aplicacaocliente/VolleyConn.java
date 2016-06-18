@@ -52,7 +52,7 @@ public class VolleyConn {
                 new Response.ErrorListener(){
                     @Override
                     public void onErrorResponse(VolleyError error){
-                        String message = "Erro";
+                        String message = "Erro: "+error.networkResponse.statusCode;
                         if(error.networkResponse != null) {
                             if (error.networkResponse.statusCode == 401) {
                                 message = c.getString(R.string.erro401);

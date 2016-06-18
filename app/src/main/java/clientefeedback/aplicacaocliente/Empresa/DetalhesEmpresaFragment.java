@@ -48,6 +48,7 @@ import clientefeedback.aplicacaocliente.MainFragment;
 import clientefeedback.aplicacaocliente.Models.Avaliacao;
 import clientefeedback.aplicacaocliente.Models.Comentario;
 import clientefeedback.aplicacaocliente.Models.Empresa;
+import clientefeedback.aplicacaocliente.Models.Favorito;
 import clientefeedback.aplicacaocliente.Models.Produto;
 import clientefeedback.aplicacaocliente.Produto.CadastrarProdutoActivity;
 import clientefeedback.aplicacaocliente.R;
@@ -66,6 +67,8 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
     private static final String TEXT_FRAGMENT = "TEXT_FRAGMENT";
     private Empresa empresa;
     private Avaliacao avaliacao;
+    private List<Favorito> favoritos;
+    private Favorito favorito;
     ToggleButton btnFavorite;
     TextView nomeEmpresa;
     TextView avaliacoes;
@@ -112,8 +115,11 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
         if (bundle != null) {
             avaliacao = bundle.getParcelable("avaliacao");
             empresa = bundle.getParcelable("empresa");
-            if(empresa.getEntidade().getIdcriador()>0){
-                temDono = true;
+            favoritos = bundle.getParcelableArrayList("favoritos");
+            if(empresa.getEntidade() != null){
+                if(empresa.getEntidade().getIdcriador()>0) {
+                    temDono = true;
+                }
             }
         }
         createTabPagerItem();
@@ -268,16 +274,27 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
             }
         });
 
+        btnFavorite.setChecked(isFavoritado());
         btnFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SharedData sd = new SharedData(getContext());
 
-                new FavoritarRequest(getContext(), sd.getPessoaId(), empresa.getEmpresaId(), "empresa", btnFavorite.isChecked());
+                if(favorito == null) {
+                    favorito = getFavoritoEmpresa();
+                    favorito = new Favorito();
+                    favorito.setTipoFavoritado("empresa");
+                    favorito.setIdFavoritado(empresa.getEmpresaId());
+                    favorito.setIdPessoa(sd.getPessoaId());
+                }
+                favorito.setCheck(btnFavorite.isChecked());
+                new FavoritarRequest(getContext(), favorito);
             }
         });
 
-
+        if(favoritos != null) {
+            Toast.makeText(getContext(), String.valueOf(favoritos.size()), Toast.LENGTH_SHORT).show();
+        }
         return rootView;
     }
 
@@ -399,5 +416,28 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
 
     }
 
+    private boolean isFavoritado() {
+        if(getFavoritoEmpresa() != null) {
+            if (getFavoritoEmpresa().isCheck()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    private Favorito getFavoritoEmpresa(){
+        favorito = new Favorito();
+        if(this.favoritos != null) {
+            for (int i = 0; i < this.favoritos.size(); i++) {
+                if ("empresa".equals(this.favoritos.get(i).getTipoFavoritado())) {
+                    favorito = this.favoritos.get(i);
+                    return favorito;
+                }
+            }
+        }
+        return favorito;
+    }
 
 }

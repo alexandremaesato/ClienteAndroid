@@ -28,9 +28,11 @@ public class FavoritarRequest implements Transaction {
     boolean check;
     String tipoFavorito;
     ProgressBar progressBar;
+    Favorito favorito;
 
-    public FavoritarRequest(Context context, int idPessoa, int idFavoritado, String tipoFavorito, boolean check) {
+    public FavoritarRequest(Context context, Favorito favorito) {
         this.context = context;
+        this.favorito = favorito;
         this.idPessoa = idPessoa;
         this.idFavoritado = idFavoritado;
         this.tipoFavorito = tipoFavorito;
@@ -56,11 +58,11 @@ public class FavoritarRequest implements Transaction {
     @Override
     public RequestData getRequestData() {
         Map<String,String> hashMap = new HashMap<>();
-        Favorito favorito = new Favorito();
-        favorito.setIdPessoa(idPessoa);
-        favorito.setIdFavoritado(idFavoritado);
-        favorito.setTipoFavoritado(tipoFavorito);
-        favorito.setCheck(check);
+//        Favorito favorito = new Favorito();
+//        favorito.setIdPessoa(idPessoa);
+//        favorito.setIdFavoritado(idFavoritado);
+//        favorito.setTipoFavoritado(tipoFavorito);
+//        favorito.setCheck(check);
         Gson gson = new Gson();
         hashMap.put("favorito", gson.toJson(favorito));
 

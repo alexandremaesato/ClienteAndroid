@@ -319,9 +319,12 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
             JSONObject json = new JSONObject(answer);
             JSONArray empresasJson = json.getJSONArray("Empresas");
             Gson gson = new Gson();
-
-            empresas = gson.fromJson(empresasJson.toString(),  new TypeToken<ArrayList<Empresa>>() {
-            }.getType());
+            try {
+                empresas = gson.fromJson(empresasJson.toString(), new TypeToken<ArrayList<Empresa>>() {
+                }.getType());
+            }catch(Exception e){
+                e.getMessage();
+            }
 
             if (empresas.size() > 0) {
                 mRecyclerView.setVisibility(View.VISIBLE);

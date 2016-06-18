@@ -12,11 +12,20 @@ import android.widget.ProgressBar;
 
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import clientefeedback.aplicacaocliente.Empresa.PrincipalEmpresaFragment;
 import clientefeedback.aplicacaocliente.Empresa.PrincipalEmpresaRequest;
 import clientefeedback.aplicacaocliente.Models.Avaliacao;
 import clientefeedback.aplicacaocliente.Models.Empresa;
+import clientefeedback.aplicacaocliente.Models.Favorito;
+import clientefeedback.aplicacaocliente.Models.Pessoa;
 import clientefeedback.aplicacaocliente.R;
 import clientefeedback.aplicacaocliente.RequestData;
 import clientefeedback.aplicacaocliente.Services.Url;
@@ -33,6 +42,7 @@ public class CarregaEmpresaRequest implements Transaction{
     Context c;
     ProgressBar progressBar;
     Empresa empresa;
+    List<Favorito>favoritos = new ArrayList<>();
     Avaliacao avaliacao;
     Bundle eBundle = new Bundle();
     Intent intent;
@@ -64,23 +74,31 @@ public class CarregaEmpresaRequest implements Transaction{
 
     @Override
     public void doAfter(String answer) {
+        try {
+            Gson gson = new Gson();
+            JSONObject json = new JSONObject(answer);
+            JSONObject empresaJson = (JSONObject) json.get("empresa");
+            JSONArray favoritosJson = json.getJSONArray("favoritos");
+            favoritos = gson.fromJson(favoritosJson.toString(), new TypeToken<ArrayList<Favorito>>() {
+            }.getType());
 
-        Gson gson = new Gson();
-        empresa = gson.fromJson(answer, Empresa.class);
-        if (empresa != null) {
+            empresa = gson.fromJson(empresaJson.toString(), Empresa.class);
+            if (empresa != null) {
 
-            eBundle.putParcelable("empresa", empresa);
-            mFragment.setArguments(eBundle);
-            empresaBool = true;
-            (new PrincipalEmpresaRequest(c, getTransactionAvaliacao())).execute();
-            beginTransaction();
-        }
+                eBundle.putParcelable("empresa", empresa);
+                eBundle.putParcelableArrayList("favoritos", (ArrayList<Favorito>)favoritos);
+                mFragment.setArguments(eBundle);
+                empresaBool = true;
+                (new PrincipalEmpresaRequest(c, getTransactionAvaliacao())).execute();
+                beginTransaction();
+            }
+        }catch(Exception e){};
         progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public RequestData getRequestData() {
-        return( new RequestData(Url.getUrl()+"Empresa/getEmpresa/"+idEmpresa, "", "") );
+        return( new RequestData(Url.getUrl()+"Empresa/getEmpresa/"+idEmpresa+"/"+idPessoa, "", "") );
     }
 
     private Transaction getTransactionAvaliacao(){

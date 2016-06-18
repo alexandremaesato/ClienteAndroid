@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import clientefeedback.aplicacaocliente.Avaliacao.AvaliacaoDialogFragment;
 import clientefeedback.aplicacaocliente.Empresa.PrincipalEmpresaFragment;
+import clientefeedback.aplicacaocliente.Favorito.FavoritarRequest;
 import clientefeedback.aplicacaocliente.Interfaces.OnItemClickListener;
 import clientefeedback.aplicacaocliente.Interfaces.RecyclerViewOnClickListenerHack;
 import clientefeedback.aplicacaocliente.Models.Avaliacao;
@@ -110,6 +112,9 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
             }
         });
 
+        holder.favorito.setChecked(true);
+
+
     }
     public void change(){
         notifyDataSetChanged();
@@ -142,7 +147,7 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
         public TextView preco;
         public Button avaliar;
         public TextView avaliacoes;
-
+        public ToggleButton favorito;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -155,8 +160,7 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
             preco = (TextView) itemView.findViewById(R.id.preco);
             avaliar = (Button) itemView.findViewById(R.id.btnAvaliarProduto);
             avaliacoes = (TextView) itemView.findViewById(R.id.tvQtdAvaliacoes);
-
-
+            favorito = (ToggleButton) itemView.findViewById(R.id.btnFavorite);
 
             itemView.setOnClickListener(this);
         }

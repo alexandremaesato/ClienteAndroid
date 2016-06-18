@@ -15,6 +15,7 @@ import java.util.List;
 
 import clientefeedback.aplicacaocliente.MainFragment;
 import clientefeedback.aplicacaocliente.Models.Empresa;
+import clientefeedback.aplicacaocliente.Models.Favorito;
 import clientefeedback.aplicacaocliente.Models.Produto;
 import clientefeedback.aplicacaocliente.Produto.ProdutoFragment;
 import clientefeedback.aplicacaocliente.R;
@@ -30,6 +31,7 @@ public class CardapioFragment extends Fragment{
         private List<TabPagerItem> mTabs = new ArrayList<>();
         private static final String TEXT_FRAGMENT = "TEXT_FRAGMENT";
         private Empresa empresa;
+        private List<Favorito> favoritos;
         private Bundle bundle;
         private Lista<Integer> categorias = new Lista<>();
 
@@ -47,6 +49,7 @@ public class CardapioFragment extends Fragment{
             bundle = this.getArguments();
             if (bundle != null) {
                 empresa = bundle.getParcelable("empresa");
+                favoritos = bundle.getParcelableArrayList("favoritos");
             }
             createTabPagerItem();
         }
