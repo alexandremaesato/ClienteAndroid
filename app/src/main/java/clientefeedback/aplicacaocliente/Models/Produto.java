@@ -62,6 +62,13 @@ public class Produto implements Parcelable {
         }
     };
 
+    public boolean hasImagemPerfil() {
+        if(imagemPerfil != null){
+            return true;
+        }
+        return false;
+    }
+
     public int getProdutoid() {
         return produtoid;
     }
@@ -180,6 +187,10 @@ public class Produto implements Parcelable {
 
     public void setEmpresaid(int empresaid) {
         this.empresaid = empresaid;
+    }
+
+    public float getNotaStars(){
+        return new Float(new Integer(avaliacaoGeral).floatValue())/20;
     }
 
     @Override

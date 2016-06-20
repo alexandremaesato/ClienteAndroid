@@ -107,9 +107,6 @@ public class EditarPerfilActivity extends AppCompatActivity implements Transacti
         sharedData.getPessoaId();
         initViews();
         loadPessoa();
-
-
-
     }
 
     public void initViews(){
@@ -353,44 +350,6 @@ public class EditarPerfilActivity extends AppCompatActivity implements Transacti
     private void doRequest(){
         (new VolleyConn(this,this)).execute();
     }
-//    private void doRequest(){
-//        String url = Url.getUrl()+"Produto/cadastrarProduto";
-//        final Map<String, String> params = new HashMap();
-//
-//        StringRequest jsonRequest = new AutorizacaoRequest(
-//                Request.Method.POST,
-//                url,
-//                new Response.Listener<String>() {
-//                    public void onResponse(String result) {
-//                        progressBar.setVisibility(View.GONE);
-//                        finish();
-//                        Toast.makeText(EditarPerfilActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    public void onErrorResponse(VolleyError error) {
-//                        if (error.networkResponse != null) {
-//                            if (error.networkResponse.statusCode == 401) {
-//                                progressBar.setVisibility(View.GONE);
-//                                finish();
-//                                Toast.makeText(getBaseContext(), R.string.nao_autorizado, Toast.LENGTH_SHORT).show();
-//                            }
-//                        }else {
-//                            progressBar.setVisibility(View.GONE);
-//                            finish();
-//                            Toast.makeText(getBaseContext(), R.string.erro_conexao, Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                }){
-//            @Override
-//            public Map<String, String> getParams() throws AuthFailureError {
-//                Gson gson = new Gson();
-//                params.put("pessoa",gson.toJson(perfil));
-//                return params;
-//            }
-//        };
-//        (new VolleyConn(this,this)).execute();
-//    }
 
     @Override
     protected Dialog onCreateDialog(int id) {

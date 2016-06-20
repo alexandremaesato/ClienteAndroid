@@ -411,23 +411,6 @@ public class BuscaFragment extends Fragment implements Transaction,RecyclerViewO
     public void executeAfterMessageWifi() {
         Intent it = new Intent(Settings.ACTION_WIFI_SETTINGS);
         startActivityForResult(it,resultCode);
-
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//
-////                while(resultCode < 0){
-////                    System.out.println("<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>");
-////                    try {
-////                        wait(1000);
-////                    } catch (InterruptedException e) {
-////                        e.printStackTrace();
-////                    }
-////                }
-////                (new VolleyConn(c, t)).execute();
-//                Toast.makeText(c, "Toast", Toast.LENGTH_SHORT).show();
-//            }
-//        }).start();
     }
 
     private void executeSearch(){

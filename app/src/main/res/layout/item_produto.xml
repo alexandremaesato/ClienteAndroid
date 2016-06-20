@@ -65,7 +65,8 @@
                         android:id="@+id/ratingBar"
                         android:layout_gravity="right"
                         style="?android:attr/ratingBarStyleSmall"
-                        />
+                        android:progressTint="#ff0000"
+                        android:rating="3" />
 
                     <LinearLayout
                         android:orientation="horizontal"

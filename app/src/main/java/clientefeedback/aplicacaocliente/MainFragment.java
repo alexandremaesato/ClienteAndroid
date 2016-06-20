@@ -125,6 +125,7 @@ public class MainFragment extends Fragment implements RecyclerViewOnClickListene
                 return false;
             }
         });
+        getFragmentManager().beginTransaction().addToBackStack("main").commit();
         return rootView;
     }
 

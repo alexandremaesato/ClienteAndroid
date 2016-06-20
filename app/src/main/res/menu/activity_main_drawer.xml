@@ -2,31 +2,33 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
+        <item android:title="Usuário">
+            <menu>
+                <item
+                    android:id="@+id/perfil"
+                    android:icon="@drawable/ic_account_circle"
+                    android:title="Perfil" />
+                <item
+                    android:id="@+id/meusFavoritos"
+                    android:icon="@drawable/ic_heart_full"
+                    android:title="Meus Favoritos" />
+            </menu>
+        </item>
         <item
             android:id="@+id/inicio"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_home"
             android:title="Início" />
+
         <item
-            android:id="@+id/perfil"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Perfil" />
-        <!--<item-->
-            <!--android:id="@+id/tabPagerExemplo"-->
-            <!--android:icon="@drawable/ic_menu_slideshow"-->
-            <!--android:title="TabPager Exempplo" />-->
+            android:id="@+id/nav_busca"
+            android:icon="@drawable/places_ic_search"
+            android:title="Busca" />
+
         <item
             android:id="@+id/cadastrarEmpresa"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_add_circle"
             android:title="@string/cadastrar_empresa" />
     </group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_busca"
-                android:icon="@drawable/places_ic_search"
-                android:title="Busca" />
-        </menu>
-    </item>
 
 </menu>

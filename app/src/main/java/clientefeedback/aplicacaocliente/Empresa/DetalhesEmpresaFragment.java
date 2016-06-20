@@ -112,6 +112,7 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
         sharedData = new SharedData(getContext());
         imageLoader = ImageLoaderCustom.getImageloader(getContext());
         Bundle bundle = this.getArguments();
+        temDono = false;
         if (bundle != null) {
             avaliacao = bundle.getParcelable("avaliacao");
             empresa = bundle.getParcelable("empresa");
@@ -280,21 +281,18 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
             public void onClick(View view) {
                 SharedData sd = new SharedData(getContext());
 
-                if(favorito == null) {
-                    favorito = getFavoritoEmpresa();
+                //if(favorito == null) {
+                //    favorito = getFavoritoEmpresa();
                     favorito = new Favorito();
                     favorito.setTipoFavoritado("empresa");
                     favorito.setIdFavoritado(empresa.getEmpresaId());
                     favorito.setIdPessoa(sd.getPessoaId());
-                }
+                //}
                 favorito.setCheck(btnFavorite.isChecked());
                 new FavoritarRequest(getContext(), favorito);
             }
         });
 
-        if(favoritos != null) {
-            Toast.makeText(getContext(), String.valueOf(favoritos.size()), Toast.LENGTH_SHORT).show();
-        }
         return rootView;
     }
 
@@ -416,6 +414,7 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
 
     }
 
+    //verifica se esta favoritado
     private boolean isFavoritado() {
         if(getFavoritoEmpresa() != null) {
             if (getFavoritoEmpresa().isCheck()) {
@@ -427,11 +426,12 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
         return false;
     }
 
+    //pegar se tem um favoritado para a empresa dessa pessoa
     private Favorito getFavoritoEmpresa(){
         favorito = new Favorito();
         if(this.favoritos != null) {
             for (int i = 0; i < this.favoritos.size(); i++) {
-                if ("empresa".equals(this.favoritos.get(i).getTipoFavoritado())) {
+                if ("empresa".equals(this.favoritos.get(i).getTipoFavoritado()) && this.favoritos.get(i).getIdFavoritado() == empresa.getEmpresaId()) {
                     favorito = this.favoritos.get(i);
                     return favorito;
                 }
