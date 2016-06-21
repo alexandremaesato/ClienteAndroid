@@ -118,7 +118,7 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
             empresa = bundle.getParcelable("empresa");
             favoritos = bundle.getParcelableArrayList("favoritos");
             if(empresa.getEntidade() != null){
-                if(empresa.getEntidade().getIdcriador()>0) {
+                if(empresa.getEntidade().getIdresponsavel()>0) {
                     temDono = true;
                 }
             }
@@ -147,7 +147,12 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
         souDono.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SouDonoDialog newFragment = new SouDonoDialog();
+                SouDonoDialog newFragment = new SouDonoDialog(empresa.getEmpresaId()){
+                    @Override
+                    public void afterOk(){
+                        souDono.setVisibility(View.GONE);
+                    }
+                };
                 newFragment.show(getFragmentManager(), "soudono");
                 //new SouDonoRequest(getContext(),empresa.getEmpresaId());
             }
@@ -241,7 +246,7 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
                 startActivity(it);
             }
         });
-        if(temDono) {
+        if(temDono && empresa.getEntidade().getIdresponsavel() != sharedData.getPessoaId()) {
             adicionarProduto.setVisibility(View.GONE);
             adicionarProduto.setEnabled(false);
         }

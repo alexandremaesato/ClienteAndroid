@@ -93,9 +93,8 @@ public class PrincipalEmpresaFragment extends Fragment{
         programacao.setArguments(bundle);
         mTabs.add(new TabPagerItem("Programação", programacao));
 
-        Fragment ambiente = AmbienteEmpresaFragment.newInstance("ambiente");
-
-        mTabs.add(new TabPagerItem("ambiente", ambiente));
+//        Fragment ambiente = AmbienteEmpresaFragment.newInstance("ambiente");
+//        mTabs.add(new TabPagerItem("ambiente", ambiente));
     }
 
     @Override
