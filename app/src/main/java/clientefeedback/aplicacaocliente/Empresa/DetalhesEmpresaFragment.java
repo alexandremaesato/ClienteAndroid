@@ -141,13 +141,15 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
 
         souDono = (TextView)rootView.findViewById(R.id.tvSouDono);
         souDono.setVisibility(View.GONE);
-        if(temDono){
+        if(!temDono){
             souDono.setVisibility(View.VISIBLE);
         }
         souDono.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new SouDonoRequest(getContext(),empresa.getEmpresaId());
+                SouDonoDialog newFragment = new SouDonoDialog();
+                newFragment.show(getFragmentManager(), "soudono");
+                //new SouDonoRequest(getContext(),empresa.getEmpresaId());
             }
         });
 
@@ -239,7 +241,7 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
                 startActivity(it);
             }
         });
-        if(!temDono) {
+        if(temDono) {
             adicionarProduto.setVisibility(View.GONE);
             adicionarProduto.setEnabled(false);
         }
@@ -283,10 +285,10 @@ public class DetalhesEmpresaFragment extends PrincipalEmpresaFragment{
 
                 //if(favorito == null) {
                 //    favorito = getFavoritoEmpresa();
-                    favorito = new Favorito();
-                    favorito.setTipoFavoritado("empresa");
-                    favorito.setIdFavoritado(empresa.getEmpresaId());
-                    favorito.setIdPessoa(sd.getPessoaId());
+                favorito = new Favorito();
+                favorito.setTipoFavoritado("empresa");
+                favorito.setIdFavoritado(empresa.getEmpresaId());
+                favorito.setIdPessoa(sd.getPessoaId());
                 //}
                 favorito.setCheck(btnFavorite.isChecked());
                 new FavoritarRequest(getContext(), favorito);

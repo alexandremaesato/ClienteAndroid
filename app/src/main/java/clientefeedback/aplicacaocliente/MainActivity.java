@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -50,6 +51,7 @@ import java.util.Map;
 import clientefeedback.aplicacaocliente.Busca.BuscaFragment;
 import clientefeedback.aplicacaocliente.Empresa.CadastrarEmpresaActivity;
 import clientefeedback.aplicacaocliente.Empresa.PrincipalEmpresaFragment;
+import clientefeedback.aplicacaocliente.Favorito.TodosFavoritoActivity;
 import clientefeedback.aplicacaocliente.Login.VolleyConnCadastrar;
 import clientefeedback.aplicacaocliente.Perfil.EditarPerfilActivity;
 import clientefeedback.aplicacaocliente.Produto.CadastrarProdutoActivity;
@@ -81,9 +83,11 @@ public class MainActivity extends AppCompatActivity
         contextOfApplication = this;
         setSupportActionBar(toolbar);
         mFragment = MainFragment.newInstance("MAIN");
-        mFragmentManager.beginTransaction().replace(R.id.conteudo, mFragment,"main").addToBackStack("main").commit();
+
+        //carrega o Fragmento Main na Tela
+        mFragmentManager.beginTransaction().replace(R.id.conteudo, mFragment, "main").commit();
         sharedPreferences = getSharedPreferences("account", Context.MODE_PRIVATE);
-//        mQueue = Volley.newRequestQueue(getApplicationContext());
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -140,8 +144,11 @@ public class MainActivity extends AppCompatActivity
             Intent it = new Intent(this, EditarPerfilActivity.class);
             startActivity(it);
 
-//        } else if (id == R.id.tabPagerExemplo) {
-//            mFragment = new ViewPagerFragment();
+        } else if (id == R.id.meusFavoritos) {
+            //mFragment = new ViewPagerFragment();
+            Intent it = new Intent(this, TodosFavoritoActivity.class);
+            startActivity(it);
+
         } else if (id == R.id.cadastrarEmpresa) {
             Intent it = new Intent(this, CadastrarEmpresaActivity.class);
             startActivity(it);
@@ -150,7 +157,11 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (mFragment != null) {
-            mFragmentManager.beginTransaction().replace(R.id.conteudo, mFragment).addToBackStack("main").commit();
+            mFragmentManager.beginTransaction()
+                    .replace(R.id.conteudo, mFragment)
+                    .setTransitionStyle(R.style.AppTheme)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .addToBackStack(null).commit();
         }
 
 
@@ -420,4 +431,6 @@ public class MainActivity extends AppCompatActivity
         };
         return t;
     }
+
+
 }
