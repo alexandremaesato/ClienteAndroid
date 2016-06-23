@@ -121,9 +121,8 @@ public class AvaliacaoDialogProdutoFragment extends DialogFragment implements Tr
         f = f *10*2;
         Integer i = f.intValue();
         avaliacao.setNota(i);
+        avaliacao.setTipoAvalicao("produto");
         avaliacao.setDescricao(editTextComentario.getText().toString());
-
-
         params.put("avaliacao", gson.toJson(avaliacao));
         return( new RequestData(Url.getUrl()+"avaliacao/setAvaliacao", "", params) );
     }
