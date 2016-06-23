@@ -123,6 +123,7 @@ public class AvaliacaoDialogProdutoFragment extends DialogFragment implements Tr
         avaliacao.setNota(i);
         avaliacao.setDescricao(editTextComentario.getText().toString());
 
+
         params.put("avaliacao", gson.toJson(avaliacao));
         return( new RequestData(Url.getUrl()+"avaliacao/setAvaliacao", "", params) );
     }

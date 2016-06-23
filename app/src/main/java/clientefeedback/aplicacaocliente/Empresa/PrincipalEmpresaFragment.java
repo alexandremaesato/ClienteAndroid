@@ -89,9 +89,9 @@ public class PrincipalEmpresaFragment extends Fragment{
         cardapio.setArguments(bundle);
         mTabs.add(new TabPagerItem("Cardápio", cardapio));
 
-        Fragment programacao = ProgramacaoEmpresaFragment.newInstance("programacao");
-        programacao.setArguments(bundle);
-        mTabs.add(new TabPagerItem("Programação", programacao));
+//        Fragment programacao = ProgramacaoEmpresaFragment.newInstance("programacao");
+//        programacao.setArguments(bundle);
+//        mTabs.add(new TabPagerItem("Programação", programacao));
 
 //        Fragment ambiente = AmbienteEmpresaFragment.newInstance("ambiente");
 //        mTabs.add(new TabPagerItem("ambiente", ambiente));

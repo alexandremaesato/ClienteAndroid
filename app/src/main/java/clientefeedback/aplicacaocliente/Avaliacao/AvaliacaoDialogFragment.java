@@ -126,4 +126,6 @@ public class AvaliacaoDialogFragment extends DialogFragment implements Transacti
         params.put("avaliacao", gson.toJson(avaliacao));
         return( new RequestData(Url.getUrl()+"avaliacao/setAvaliacao", "", params) );
     }
+
+
 }

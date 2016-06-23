@@ -197,6 +197,9 @@ public class ProdutoDetalhes extends AppCompatActivity implements Transaction, C
                     i = produto.getAvaliacoes().size()+1;
                 }
             }
+        }else{
+            avaliacao.setAvaliadoid(this.produto.getProdutoid());
+            avaliacao.setPessoaid(sharedData.getPessoaId());
         }
 
         bundle.putParcelable("avaliacao", avaliacao);

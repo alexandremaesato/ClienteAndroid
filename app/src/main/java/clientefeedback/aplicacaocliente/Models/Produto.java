@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class Produto implements Parcelable {
 
-    public static String[] CATEGORIAS = {"Bebida", "Aperitivos e porções", "Sanduíches", "Pratos"};
+    public static String[] CATEGORIAS = {"", "Prato", "Bebida", "Sobremesa", "Pratos"};
 
     private int produtoid;
     private String nomeProduto;

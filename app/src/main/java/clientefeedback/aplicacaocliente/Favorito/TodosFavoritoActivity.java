@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -37,6 +38,7 @@ public class TodosFavoritoActivity extends AppCompatActivity implements Transact
     List<Favorito> favoritos;
     List<Produto> produtos;
     ListView listView;
+    TextView nenhumFavorito;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,17 +55,23 @@ public class TodosFavoritoActivity extends AppCompatActivity implements Transact
     }
 
     public void createView(){
+        nenhumFavorito = (TextView)findViewById(R.id.tvNenhumFavorito);
         listView = (ListView)findViewById(R.id.listViewTodosFavoritos);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
     }
 
     public void loadView(){
-        listView.setAdapter(new TodosFavoritosAdapter(this, produtos, empresas, favoritos));
+        if(favoritos.size()>0) {
+            listView.setAdapter(new TodosFavoritosAdapter(this, produtos, empresas, favoritos));
+        }else{
+            nenhumFavorito.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void doBefore() {
         progressBar.setVisibility(View.VISIBLE);
+        nenhumFavorito.setVisibility(View.GONE);
     }
 
     @Override
